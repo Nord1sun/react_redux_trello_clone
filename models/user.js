@@ -1,0 +1,37 @@
+'use strict';
+const bcrypt = require("bcrypt");
+const md5 = require('md5');
+const uuid = require('uuid/v4');
+
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
+    fullName: DataTypes.STRING,
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          msg: 'Email cannot be empty'
+        },
+        isEmail: {
+          msg: 'Email is invalid'
+        }
+      }
+    },
+    password: DataTypes.STRING,
+    token: DataTypes.STRING
+  });
+
+  User.prototype.validPassword = function(password) {
+    return bcrypt.compareSync(password, this.password);
+  };
+
+  User.hook('beforeSave', (user) => {
+    user.token = md5(`${ user.email }${ uuid() }`);
+  });
+
+  User.hook('beforeCreate', (user) => {
+    user.password = bcrypt.hashSync(user.password, 8);
+  });
+
+  return User;
+};

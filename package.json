@@ -1,0 +1,45 @@
+{
+  "name": "project_djello",
+  "version": "1.0.0",
+  "description": "Project management with that great wobbly taste.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "c": "node repl",
+    "console": "node repl",
+    "debug": "node debug server",
+    "test": "jasmine",
+    "seed": "sequelize db:migrate:undo:all && sequelize db:migrate:undo:all --env 'test' && sequelize db:migrate && sequelize db:migrate --env 'test' && sequelize db:seed:all",
+    "seeds": "sequelize db:migrate:undo:all && sequelize db:migrate:undo:all --env 'test' && sequelize db:migrate && sequelize db:migrate --env 'test' && sequelize db:seed:all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asaloff/project_djello.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asaloff/project_djello/issues"
+  },
+  "homepage": "https://github.com/asaloff/project_djello#readme",
+  "dependencies": {
+    "bcrypt": "^1.0.3",
+    "body-parser": "^1.18.2",
+    "dotenv": "^4.0.0",
+    "es6-promise": "^4.2.2",
+    "express": "^4.16.2",
+    "faker": "^4.1.0",
+    "isomorphic-fetch": "^2.2.1",
+    "md5": "^2.2.1",
+    "morgan": "^1.9.0",
+    "morgan-toolkit": "^1.2.2",
+    "nodemon": "^1.14.11",
+    "pg": "^7.4.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.31.1",
+    "uuid": "^3.1.0"
+  },
+  "devDependencies": {
+    "jasmine": "^2.8.0"
+  }
+}

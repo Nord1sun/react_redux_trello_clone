@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css?family=Oleo+Script');
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.App-header {
+  color: #fff;
+  background-color: #0076c6;
+  border-bottom: none;
+  margin-bottom: 40px;
+}
+
+.App-title {
+  font-family: 'Oleo Script', cursive;
+  letter-spacing: 2px;
+}
+
+.nav-link {
+  color: #fff !important;
+}
+
+.navUserId {
+  display: block;
+  padding: 0.5rem 1rem;
+}
+
+@media only screen and (max-width: 767px) {
+  .navUserId {
+    display: block;
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+.navbar-toggler {
+  background-color: #169CFB;
+}
+
+.navbar-light .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(255,255,255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.card-header {
+  background-color: #0076c6;
+  color: #fff;
+}
