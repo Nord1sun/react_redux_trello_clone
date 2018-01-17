@@ -25,11 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     return bcrypt.compareSync(password, this.password);
   };
 
-  User.hook('beforeSave', (user) => {
-    user.token = md5(`${ user.email }${ uuid() }`);
-  });
-
   User.hook('beforeCreate', (user) => {
+    user.token = md5(`${ user.email }${ uuid() }`);
     user.password = bcrypt.hashSync(user.password, 8);
   });
 

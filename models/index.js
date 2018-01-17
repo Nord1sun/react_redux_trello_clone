@@ -17,9 +17,10 @@ db.sequelize = sequelize;
 
 // Models/tables
 db.User = require('./user')(sequelize, Sequelize);
+db.Board = require('./board')(sequelize, Sequelize);
 
 // Relations
-// db.Profile.belongsTo(db.User);
-// db.User.hasOne(db.Profile);
+db.User.hasMany(db.Board);
+db.Board.belongsTo(db.User);
 
 module.exports = db;

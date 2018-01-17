@@ -42,6 +42,7 @@ describe('Login', () => {
     }, (err, response, body) => {
       expect(response.statusCode).toBe(200);
       expect(body.token).toBeDefined();
+      expect(body.data.id).toEqual(user.id);
       expect(body.data.fullName).toEqual(user.fullName);
       expect(body.data.email).toEqual(user.email);
       done();

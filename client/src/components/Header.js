@@ -48,7 +48,7 @@ class Header extends Component {
 }
 
 Header.propTypes = {
-  session: PropTypes.bool.isRequired,
+  session: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired
 };

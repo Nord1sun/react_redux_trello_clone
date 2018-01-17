@@ -1,4 +1,5 @@
 import { sessionService } from 'redux-react-session';
+
 export const SET_SESSION_ERROR = 'SET_SESSION_ERROR';
 export const REMOVE_SESSION_ERROR = 'REMOVE_SESSION_ERROR';
 

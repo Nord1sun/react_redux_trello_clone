@@ -10,7 +10,7 @@ router.post('/new', (req, res) => {
       if (!user || !user.validPassword(password)) {
         res.status(404).json({ status: 404, message: 'Invalid email/password' });
       } else {
-        const data = { email, fullName: user.fullName };
+        const data = { email, fullName: user.fullName, id: user.id };
         res.status(200).json({ token: user.token, data });
       }
     })

@@ -6,7 +6,6 @@ const uuid = require('uuid/v4');
 module.exports = {
   up: (queryInterface) => {
 
-    // password is hashed from 'password1'
     var users = [{
       fullName: 'Aaron Saloff',
       email: 'asaloff@example.com',

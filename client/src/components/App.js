@@ -3,17 +3,17 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from './Header';
-import Home from './Home';
+import BoardDisplayContainer from '../containers/BoardDisplayContainer';
 import Login from './Login';
 import PrivateRoute from './PrivateRoute';
 
-const App = ({ session, checked }) => (
+const App = ({ session }) => (
   <div className="App">
     <Router>
-      { checked &&
+      { session.checked &&
         <div>
           <Header session={session} />
-          <PrivateRoute exact path="/" component={Home} authenticated={session.authenticated}/>
+          <PrivateRoute exact path="/" component={BoardDisplayContainer} authenticated={session.authenticated}/>
           <Route path="/login" component={Login}/>
         </div>
       }
@@ -21,15 +21,11 @@ const App = ({ session, checked }) => (
   </div>
 );
 
-const { bool, object } = PropTypes;
-
 App.propTypes = {
-  session: object.isRequired,
-  checked: bool.isRequired
+  session: PropTypes.object.isRequired
 };
 
 const mapStateToProps = ({ session }) => ({
-  checked: session.checked,
   session: session
 });
 
