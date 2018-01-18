@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import BoardDisplay from '../components/BoardDisplay';
+import BoardDisplay from '../components/boards/BoardDisplay';
 import { getBoards, selectBoard, createBoard, deleteBoard } from '../actions/boardActions';
 
 const mapStateToProps = (state) => {

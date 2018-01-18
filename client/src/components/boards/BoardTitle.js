@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Form, FormGroup, Input, Button, Alert } from 'reactstrap';
-import Loader from './elements/Loader';
+import Loader from '../elements/Loader';
 
 class TitleForm extends Component {
   render() {

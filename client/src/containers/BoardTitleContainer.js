@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import BoardTitle from '../components/BoardTitle';
+import BoardTitle from '../components/boards/BoardTitle';
 import { toggleFormVisability, updateBoardTitle } from '../actions/boardTitleActions';
 import serialize from 'form-serialize';
 
