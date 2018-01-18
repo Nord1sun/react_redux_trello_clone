@@ -11,7 +11,8 @@ const boardTitle = (state = initialState, action) => {
     case Actions.TOGGLE_FORM_VISABILITY:
       return {
         ...state,
-        isFormVisable: !state.isFormVisable
+        isFormVisable: !state.isFormVisable,
+        error: null
       };
     case Actions.UPDATE_TITLE_REQUEST:
       return {

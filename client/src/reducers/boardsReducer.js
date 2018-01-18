@@ -28,7 +28,8 @@ const boardData = (state = initialState, action) => {
     case Actions.SELECT_BOARD:
       return {
         ...state,
-        selectedBoard: state.boards.find(board => board.title === action.title)
+        selectedBoard: state.boards.find(board => board.title === action.title),
+        error: null
       };
     case Actions.GET_BOARDS_SUCCESS:
       return {
