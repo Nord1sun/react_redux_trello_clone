@@ -40,7 +40,12 @@ body {
 
 .navUserId {
   display: block;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 1rem;
+}
+
+.profile-img {
+  width: 30px;
+  margin-right: 15px;
 }
 
 @media only screen and (max-width: 767px) {
@@ -59,10 +64,10 @@ body {
   background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(255,255,255)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
-.card-header {
-  background-color: #0076c6;
-  color: #fff;
+.BoardDisplayHeading {
+  margin-bottom: 20px;
 }
+
 @media only screen and (min-width: 576px) {
   label[for=board] {
     text-align: right;
@@ -84,6 +89,8 @@ body {
 .form-button {
   margin-right: 10px;
 }
+
+
 
 /*********** Loader Styles *************/
 .loader,

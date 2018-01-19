@@ -3,6 +3,7 @@ import { sessionReducer } from 'redux-react-session';
 import sessionError from './sessionErrorReducer';
 import boardData from './boardsReducer';
 import boardTitle from './boardTitleReducer';
+import { USER_LOGOUT } from '../actions/sessionActions';
 
 const reducers = {
   session: sessionReducer,
@@ -11,4 +12,13 @@ const reducers = {
   boardTitle
 };
 
-export const appReducer = combineReducers(reducers);
+const appReducer = combineReducers(reducers);
+
+export const djello = (state, action) => {
+  if (action.type === USER_LOGOUT) {
+    const { session } = state;
+    state = { session };
+  }
+
+  return appReducer(state, action);
+};

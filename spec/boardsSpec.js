@@ -1,11 +1,11 @@
 require('./config');
 const app = require('../server');
 const request = require('request');
-const { User, Board } = require('./../models');
+const { User, Board, List } = require('./../models');
 
 describe('Boards', () => {
   const apiUrl = 'http://localhost:3001/api/v1/boards';
-  let server, user1, user2, board1;
+  let server, user1, user2, board1, list1;
 
   beforeAll(done => {
     server = app.listen(8888, () => {
@@ -37,6 +37,10 @@ describe('Boards', () => {
         return Board.create({ title: 'board3', UserId: user2.id });
       })
       .then(() => {
+        return List.create({ title: 'list1', description: 'lorem ipsum dolor', BoardId: board1.id });
+      })
+      .then(list => {
+        list1 = list;
         done();
       })
       .catch(e => console.error(e.message));
@@ -50,6 +54,14 @@ describe('Boards', () => {
         expect(result.boards.length).toEqual(2);
         expect(result.boards[0].title).toEqual('board1');
         expect(result.boards[1].title).toEqual('board2');
+        done();
+      });
+    });
+
+    it('returns the requested board with it\'s lists', done => {
+      request(`${ apiUrl }/${ user1.id }`, (err, response, body) => {
+        const result = JSON.parse(body);
+        expect(result.boards[0].Lists[0].title).toEqual('list1');
         done();
       });
     });
@@ -136,6 +148,18 @@ describe('Boards', () => {
             console.error(e.stack);
             done.fail();
           });
+      });
+    });
+
+    it('sends the lists associated with the board', (done) => {
+      const body = { title: 'New Title' };
+      request({
+        url: `${ apiUrl }/${ board1.id }?token=${ user1.token }`,
+        method: 'PUT',
+        json: body
+      }, (err, response, body) => {
+        expect(body.board.Lists[0].title).toEqual('list1');
+        done();
       });
     });
 

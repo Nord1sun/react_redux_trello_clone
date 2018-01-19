@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
         }
       }
     },
+    img: {
+      type: DataTypes.STRING,
+      defaultValue: '/user.png'
+    },
     password: DataTypes.STRING,
     token: DataTypes.STRING
   });

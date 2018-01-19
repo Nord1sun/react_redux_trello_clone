@@ -19,14 +19,21 @@ db.sequelize = sequelize;
 db.User = require('./user')(sequelize, Sequelize);
 db.Board = require('./board')(sequelize, Sequelize);
 db.List = require('./list')(sequelize, Sequelize);
+db.Card = require('./card')(sequelize, Sequelize);
 
-// Relations
-const { User, Board, List } = db;
+// Associations
+const { User, Board, List, Card } = db;
 
 User.hasMany(Board);
 Board.belongsTo(User);
 
 Board.hasMany(List);
 List.belongsTo(Board);
+
+List.hasMany(Card);
+Card.belongsTo(List);
+
+Card.belongsToMany(User, { through: 'UserCard' });
+User.belongsToMany(Card, { through: 'UserCard' });
 
 module.exports = db;

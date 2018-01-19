@@ -3,9 +3,14 @@ import PropTypes from 'prop-types';
 import { Alert } from 'reactstrap';
 import Loader from '../elements/Loader';
 import BoardDisplayHeading from './BoardDisplayHeading';
-import Board from './Board';
+import BoardContainer from '../../containers/BoardContainer';
 
 class BoardDisplay extends PureComponent {
+  componentDidMount() {
+    const { currentUser, getBoards } = this.props;
+    getBoards(currentUser.id);
+  }
+
   componentWillReceiveProps(newProps) {
     const { currentUser, getBoards } = newProps;
     if (currentUser !== this.props.currentUser) getBoards(currentUser.id);
@@ -29,7 +34,7 @@ class BoardDisplay extends PureComponent {
                 createBoard={createBoard}
                 deleteBoard={deleteBoard}
               />
-              <Board board={selectedBoard}/>
+              <BoardContainer />
             </div>
           )}
       </div>

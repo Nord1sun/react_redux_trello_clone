@@ -1,14 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const { User, Board } = require('../models');
+const { User, Board, List } = require('../models');
 
 router.get('/:userId', (req, res, next) => {
-  User.findById(req.params.userId)
+  User.find({
+    where: { id: req.params.userId },
+    include: [{
+      model: Board,
+      include: [ List ]
+    }]
+  })
     .then(user => {
-      return user.getBoards();
-    })
-    .then(boards => {
-      res.json({ boards });
+      res.json({ boards: user.Boards });
     })
     .catch(e => next(e));
 });
@@ -46,6 +49,12 @@ router.put('/:id', checkForToken, (req, res, next) => {
       if (!req.body.title) res.status(400).json({ status: 400, message: "No Title Given" });
 
       return board.update({ title: req.body.title });
+    })
+    .then(board => {
+      return Board.find({
+        where: { id: board.id },
+        include: [ List ]
+      });
     })
     .then(board => {
       res.json({ status: 200, board });

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { logout } from '../actions/sessionActions';
 import { Collapse, Navbar, NavbarToggler, Nav, NavItem, NavLink } from 'reactstrap';
+import ProfileImg from './elements/ProfileImg';
 
 class Header extends Component {
   constructor(props) {
@@ -32,6 +33,7 @@ class Header extends Component {
               <Collapse isOpen={this.state.isOpen} navbar>
                 <Nav className="ml-auto" navbar>
                   <NavItem className="navUserId">
+                    <ProfileImg user={session.user}/>
                     Welcome {session.user.fullName}!
                   </NavItem>
                   <NavItem>

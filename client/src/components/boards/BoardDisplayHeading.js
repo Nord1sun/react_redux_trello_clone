@@ -28,7 +28,7 @@ class BoardDisplayHeading extends PureComponent {
     });
 
     return (
-      <div className="row justify-content-between align-items-center">
+      <div className="BoardDisplayHeading row justify-content-between align-items-center">
         <div className="col-md-4">
           {selectedBoard
             ? <BoardTitleContainer board={selectedBoard} />

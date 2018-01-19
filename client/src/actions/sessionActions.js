@@ -2,6 +2,7 @@ import { sessionService } from 'redux-react-session';
 
 export const SET_SESSION_ERROR = 'SET_SESSION_ERROR';
 export const REMOVE_SESSION_ERROR = 'REMOVE_SESSION_ERROR';
+export const USER_LOGOUT = 'USER_LOGOUT';
 
 const setSessionError = (error) => {
   return {
@@ -12,6 +13,10 @@ const setSessionError = (error) => {
 
 const removeSessionError = () => {
   return { type: REMOVE_SESSION_ERROR };
+};
+
+const userLogout = () => {
+  return { type: USER_LOGOUT };
 };
 
 export const login = (user, history) => {
@@ -55,6 +60,7 @@ export const logout = (history) => {
         return sessionService.deleteUser();
       })
       .then(() => {
+        dispatch(userLogout());
         dispatch(removeSessionError());
         history.push('/login');
       })

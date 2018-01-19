@@ -5,13 +5,23 @@ const uuid = require('uuid/v4');
 
 module.exports = {
   up: (queryInterface) => {
+    const globalPassword = '$2a$08$7e0QZksAKX1lQft9/37nkuakp/Mlku93JfkA6Adedfm.4cM1MeswS';
 
     var users = [{
       fullName: 'Aaron Saloff',
       email: 'asaloff@example.com',
-      password: '$2a$08$7e0QZksAKX1lQft9/37nkuakp/Mlku93JfkA6Adedfm.4cM1MeswS',
+      password: globalPassword,
       token: md5(`asaloff@example.com${ uuid() }`)
     }];
+
+    for (var i = 0; i < 2; i++) {
+      users.push({
+        fullName: `Foo${i} Bar${i}`,
+        email: `foobar${i}@example.com`,
+        password: globalPassword,
+        token: md5(`foobar${i}@example.com${ uuid() }`)
+      });
+    }
 
     return queryInterface.bulkInsert('Users', users);
   },

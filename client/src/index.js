@@ -8,7 +8,8 @@ import registerServiceWorker from './registerServiceWorker';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
-import { appReducer } from './reducers/appReducer';
+import { djello } from './reducers/appReducer';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { sessionService } from 'redux-react-session';
 
 if (process.env.NODE_ENV !== 'production') {
@@ -16,11 +17,11 @@ if (process.env.NODE_ENV !== 'production') {
   whyDidYouUpdate(React);
 }
 
-const store = createStore(appReducer, applyMiddleware(ReduxThunk));
+const store = createStore(djello, composeWithDevTools(
+  applyMiddleware(ReduxThunk)
+));
 
 sessionService.initSessionService(store);
-
-store.subscribe(() => console.log(store.getState()));
 
 ReactDOM.render(
   <Provider store={store}>
