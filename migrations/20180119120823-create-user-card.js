@@ -29,6 +29,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('UserCards');
+    return queryInterface.dropTable('UserCard');
   }
 };

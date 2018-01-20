@@ -3,13 +3,15 @@ import { sessionReducer } from 'redux-react-session';
 import sessionError from './sessionErrorReducer';
 import boardData from './boardsReducer';
 import boardTitle from './boardTitleReducer';
+import list from './listReducer';
 import { USER_LOGOUT } from '../actions/sessionActions';
 
 const reducers = {
   session: sessionReducer,
   sessionError,
   boardData,
-  boardTitle
+  boardTitle,
+  list
 };
 
 const appReducer = combineReducers(reducers);

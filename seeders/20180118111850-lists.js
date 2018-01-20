@@ -8,7 +8,6 @@ module.exports = {
     for (var i = 0; i < 2; i++) {
       lists.push({
         title: `List${ i }`,
-        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non felis tristique, tempor arcu euismod, sagittis sem.',
         BoardId: board.id
       });
     }

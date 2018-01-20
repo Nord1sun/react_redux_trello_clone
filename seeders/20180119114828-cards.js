@@ -8,7 +8,6 @@ module.exports = {
     for (let list of board.Lists) {
       for (var i = 0; i < 5; i++) {
         cards.push({
-          title: `card${ i }`,
           description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras non felis tristique, tempor arcu euismod, sagittis sem.',
           ListId: list.id,
           completed: false

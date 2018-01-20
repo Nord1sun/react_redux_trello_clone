@@ -1,16 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const { User, Board, List } = require('../models');
+const { User, Board} = require('../models');
+const { checkForToken } = require('../helpers/authentication');
+const { getBoardWithAssociations, findUserWithBoards } = require('../helpers/modelIncludeHelper');
 
 router.get('/:userId', (req, res, next) => {
-  User.find({
-    where: { id: req.params.userId },
-    include: [{
-      model: Board,
-      include: [ List ]
-    }]
-  })
+  findUserWithBoards(req.params.userId)
     .then(user => {
+      if (!user) {
+        res.json({ message: 'No user found' });
+        return;
+      }
+
       res.json({ boards: user.Boards });
     })
     .catch(e => next(e));
@@ -22,6 +23,9 @@ router.post('/', checkForToken, (req, res, next) => {
       if (!user) res.status(404).json({ status: 404, message: 'User not found' });
 
       return Board.create({ UserId: user.id });
+    })
+    .then(board => {
+      return getBoardWithAssociations(board.id);
     })
     .then(board => {
       res.json({ status: 200, data: board });
@@ -51,10 +55,7 @@ router.put('/:id', checkForToken, (req, res, next) => {
       return board.update({ title: req.body.title });
     })
     .then(board => {
-      return Board.find({
-        where: { id: board.id },
-        include: [ List ]
-      });
+      return getBoardWithAssociations(board.id);
     })
     .then(board => {
       res.json({ status: 200, board });
@@ -79,22 +80,16 @@ router.delete('/:id', checkForToken, (req, res, next) => {
         });
       }
 
-      board.destroy();
-      res.json({
-        status: 200,
-        message: `${ board.title } deleted successfully`,
-        board
-      });
+      board.destroy()
+        .then(() => {
+          res.json({
+            status: 200,
+            message: `${ board.title } deleted successfully`,
+            board
+          });
+        });
     })
     .catch(e => next(e));
 });
-
-function checkForToken(req, res, next) {
-  if (!req.query.token) {
-    res.status(403).json({ status: 403, message: 'Forbidden - No Token Provided' });
-  } else {
-    next();
-  }
-}
 
 module.exports = router;

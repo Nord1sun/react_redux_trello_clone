@@ -20,20 +20,28 @@ db.User = require('./user')(sequelize, Sequelize);
 db.Board = require('./board')(sequelize, Sequelize);
 db.List = require('./list')(sequelize, Sequelize);
 db.Card = require('./card')(sequelize, Sequelize);
+db.Event = require('./event')(sequelize, Sequelize);
 
 // Associations
-const { User, Board, List, Card } = db;
+const { User, Board, List, Card, Event } = db;
 
 User.hasMany(Board);
 Board.belongsTo(User);
 
-Board.hasMany(List);
+Board.hasMany(List, { onDelete: 'cascade', hooks:true });
 List.belongsTo(Board);
 
-List.hasMany(Card);
+List.hasMany(Card, { onDelete: 'cascade', hooks: true });
 Card.belongsTo(List);
 
 Card.belongsToMany(User, { through: 'UserCard' });
 User.belongsToMany(Card, { through: 'UserCard' });
+
+
+User.hasMany(Event);
+Event.belongsTo(User);
+
+Card.hasMany(Event, { onDelete: 'cascade', hooks: true });
+Event.belongsTo(Card);
 
 module.exports = db;

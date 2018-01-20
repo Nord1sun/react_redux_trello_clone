@@ -4,6 +4,11 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+  background-color: #0075c6;
+}
+
+a, a:hover, a:focus {
+  color: #fff;
 }
 
 .bold {
@@ -12,26 +17,57 @@ body {
 
 .App-header {
   color: #fff;
-  background-color: #0076c6;
+  background-color: #0064a8;
   border-bottom: none;
   margin-bottom: 40px;
 }
 
 .App-title {
   font-family: 'Oleo Script', cursive;
-  letter-spacing: 2px;
 }
 
 .title-link, .title-link:hover {
-  font-size: 2.5rem;
+  font-size: 2rem;
   margin-bottom: 0.5rem;
   font-family: inherit;
   font-weight: 500;
   line-height: 1.2;
-  color: inherit;
   margin-top: 0;
   display: block;
   text-decoration: none;
+}
+
+.Login h2, .Login h6 {
+  color: #fff;
+}
+
+.card-header {
+  padding: 7px 10px 5px;
+  border-bottom: none;
+  background: none;
+}
+
+.card-footer {
+  padding: 5px 10px 7px;
+  border: none;
+  background: none;
+  color: #838c91;
+  font-size: .85em;
+}
+
+a .card-footer {
+  text-decoration: none;
+}
+
+a .card-footer:hover, a .card-footer:focus {
+  background-color: #cdd2d4;
+  color: #4d4d4d;
+  text-decoration: underline;
+}
+
+h6.card-title {
+  margin-bottom: 0px;
+  font-weight: bold;
 }
 
 .nav-link {
@@ -65,7 +101,7 @@ body {
 }
 
 .BoardDisplayHeading {
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 
 @media only screen and (min-width: 576px) {
@@ -76,6 +112,10 @@ body {
 
 .select-board {
   margin-bottom: 0;
+}
+
+.select-board label {
+  color: #fff;
 }
 
 .board-links {
@@ -90,7 +130,53 @@ body {
   margin-right: 10px;
 }
 
+.List {
+  background-color: #efefef;
+  margin-bottom: 10px;
+}
 
+.ListBody {
+  max-height: 300px;
+  overflow-y: scroll;
+  overflow: -moz-scrollbars-vertical;
+}
+
+.List .card-body {
+  padding: 7px;
+}
+
+.ListCard p {
+  font-size: .85em;
+}
+
+.AddList {
+  background: rgba(0,0,0,.12);
+  padding: 10px;
+}
+
+.AddList:hover, .AddList:focus {
+  background: rgba(0,0,0,.3);
+}
+
+a.add-list {
+  text-decoration: none;
+}
+
+.ListCard {
+  margin-bottom: 7px;
+}
+
+.cancel-edit-link {
+  color: #999;
+  font-size: 1.3em;
+  position: relative;
+  top: 3px;
+}
+
+.cancel-edit-link:hover, .cancel-edit-link:focus {
+  color: #4d4d4d;
+  text-decoration: none;
+}
 
 /*********** Loader Styles *************/
 .loader,
@@ -151,3 +237,14 @@ body {
   }
 }
 /*********** End Loader Styles *************/
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(0,0,0,.2);
+  -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}

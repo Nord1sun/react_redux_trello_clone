@@ -17,9 +17,11 @@ app.use(bodyParser.json());
 // Routes
 const sessions = require('./routers/sessions');
 const boards = require('./routers/boards');
+const lists = require('./routers/lists');
 
 app.use('/api/v1/sessions', sessions);
 app.use('/api/v1/boards', boards);
+app.use('/api/v1/lists', lists);
 
 
 const errorHandler = (err, req, res, next) => {

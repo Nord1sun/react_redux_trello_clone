@@ -1,11 +1,11 @@
 require('./config');
 const app = require('../server');
 const request = require('request');
-const { User, Board, List } = require('./../models');
+const { User, Board, List, Card, Event } = require('./../models');
 
 describe('Boards', () => {
   const apiUrl = 'http://localhost:3001/api/v1/boards';
-  let server, user1, user2, board1, list1;
+  let server, user1, user2, board1, card1;
 
   beforeAll(done => {
     server = app.listen(8888, () => {
@@ -19,7 +19,7 @@ describe('Boards', () => {
     done();
   });
 
-  beforeEach(done => {
+  beforeEach(async (done) => {
     User.create({ fullName: 'Foo Bar', email: 'foobar@gmail.com', password: 'password1' })
       .then(result => {
         user1 = result;
@@ -40,10 +40,19 @@ describe('Boards', () => {
         return List.create({ title: 'list1', description: 'lorem ipsum dolor', BoardId: board1.id });
       })
       .then(list => {
-        list1 = list;
+        return Card.create({ title: 'card1', description: 'some description', ListId: list.id });
+      })
+      .then(card => {
+        card1 = card;
+        return Event.create({ action: 'some action', UserId: user1.id, CardId: card.id });
+      })
+      .then(() => {
+        return card1.addUsers([user1, user2]);
+      })
+      .then(() => {
         done();
       })
-      .catch(e => console.error(e.message));
+      .catch(e => console.error(e));
   });
 
   describe('GET boards', () => {

@@ -5,12 +5,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       defaultValue: 'Add list title...'
     },
-
-    description: {
-      type: DataTypes.STRING,
-      defaultValue: 'Add list description...'
-    },
-
     BoardId: DataTypes.INTEGER
   });
   return List;

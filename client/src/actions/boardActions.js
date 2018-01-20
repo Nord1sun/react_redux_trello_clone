@@ -39,7 +39,7 @@ export function getBoards(userId) {
       .then(boards => {
         dispatch(getBoardsSuccess(boards));
       })
-      .catch(() => {
+      .catch((e) => {
         dispatch(getBoardsFailure('Could not fetch boards'));
       });
   };

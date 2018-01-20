@@ -1,22 +1,23 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Cards', {
+    return queryInterface.createTable('Events', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      description: {
+      action: {
         type: Sequelize.STRING,
-        defaultValue: 'Add card description...'
+        allowNull: false
       },
-      completed: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
+      UserId: {
+        allowNull: false,
+        type: Sequelize.INTEGER
       },
-      ListId: {
+      CardId: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -32,6 +33,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Cards');
+    return queryInterface.dropTable('Events');
   }
 };

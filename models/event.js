@@ -1,8 +1,9 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var UserCard = sequelize.define('UserCard', {
+  var Event = sequelize.define('Event', {
+    action: DataTypes.STRING,
     UserId: DataTypes.INTEGER,
     CardId: DataTypes.INTEGER
   });
-  return UserCard;
+  return Event;
 };

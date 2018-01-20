@@ -7,7 +7,7 @@ class DeleteBoardModal extends PureComponent {
     const { isOpen, toggle, selectedBoard, deleteBoard } = this.props;
     return (
       <Modal isOpen={isOpen} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+        <ModalHeader toggle={toggle}>Delete Board</ModalHeader>
         <ModalBody>
           Are you sure you want to delete <span className="bold">{selectedBoard.title}</span>? This action will also remove all lists and cards associated with your board.
         </ModalBody>

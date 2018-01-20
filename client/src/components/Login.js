@@ -20,7 +20,7 @@ class Login extends Component {
         <div className="row justify-content-center">
           <div className="col-md-6">
             <h2 className="text-center">Welcome to Djello Project Management!</h2>
-            <h6 className="text-muted text-center">Please login to continue</h6>
+            <h6 className="text-center">Please login to continue</h6>
             {sessionError.message
               ? <Alert color="danger">{sessionError.message}</Alert>
               : null}

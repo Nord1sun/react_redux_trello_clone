@@ -12,10 +12,6 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: 'Add list title...'
       },
-      description: {
-        type: Sequelize.STRING,
-        defaultValue: 'Add list description...'
-      },
       BoardId: {
         type: Sequelize.INTEGER
       },

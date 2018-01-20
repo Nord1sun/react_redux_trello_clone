@@ -23,7 +23,8 @@ const boardTitle = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        isFormVisable: false
+        isFormVisable: false,
+        error: null
       };
     case Actions.UPDATE_TITLE_FAILURE:
       return {
