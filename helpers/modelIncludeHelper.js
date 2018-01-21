@@ -7,7 +7,11 @@ const getBoardWithAssociations = async (id) => {
       model: List,
       include: [{
         model: Card,
-        include: [ Event, User ]
+        include: [
+          List,
+          { model: Event, include: [ User ] },
+          User
+        ]
       }]
     }],
     order: [
@@ -28,7 +32,11 @@ const findUserWithBoards = async (id) => {
           model: List,
           include: [{
             model: Card,
-            include: [ Event, User ]
+            include: [
+              List,
+              { model: Event, include: [ User ] },
+              User
+            ]
           }]
         }]
       }],

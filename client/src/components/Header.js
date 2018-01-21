@@ -41,7 +41,7 @@ class Header extends Component {
             ? (
               <Collapse isOpen={this.state.isNavbarOpen} navbar>
                 <Nav className="ml-auto" navbar>
-                  <UncontrolledDropdown nav inNavbar>
+                  <UncontrolledDropdown nav innavbar="true">
                     <DropdownToggle nav caret>
                       {selectedBoard
                         ? selectedBoard.title
@@ -55,10 +55,10 @@ class Header extends Component {
                       </DropdownItem>
                     </DropdownMenu>
                   </UncontrolledDropdown>
-                  <UncontrolledDropdown nav inNavbar className="profile-navlink">
+                  <UncontrolledDropdown nav innavbar="true" className="profile-navlink">
                     <DropdownToggle nav caret>
                       <ProfileImg user={session.user}/>
-                      {session.user.fullName}!
+                      {session.user.fullName}
                     </DropdownToggle>
                     <DropdownMenu >
                       <DropdownItem tag="a" onClick={(e) => logout(history, e)} href="">
@@ -80,7 +80,7 @@ Header.propTypes = {
   session: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
-  boards: PropTypes.object,
+  boards: PropTypes.array,
   selectedBoard: PropTypes.object,
   selectBoard: PropTypes.func.isRequired,
   createBoard: PropTypes.func.isRequired

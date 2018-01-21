@@ -14,7 +14,7 @@ class BoardDisplayHeading extends PureComponent {
   }
 
   toggleDeleteModal(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
     this.setState({ deleteModalOpen: !this.state.deleteModalOpen});
   }
 
@@ -57,7 +57,7 @@ class BoardDisplayHeading extends PureComponent {
 }
 
 BoardDisplayHeading.propTypes = {
-  boards: PropTypes.array.isRequired,
+  boards: PropTypes.array,
   selectedBoard: PropTypes.object,
   deleteBoard: PropTypes.func.isRequired
 };

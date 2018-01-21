@@ -178,6 +178,42 @@ h6.card-title {
   font-size: .85em;
 }
 
+.list-card-header {
+  border: none;
+  padding: 1rem 1rem 0;
+}
+
+.list-card-body {
+  padding-top: 0;
+}
+
+.card-header-info {
+  max-height: 20px;
+}
+
+.card-link {
+  color: #838c91;
+  text-decoration: underline;
+}
+
+.card-link:hover, .card-link:focus {
+  color: #4d4d4d;
+}
+
+.Members, .Activity {
+  border-top: 1px solid #e9ecef;
+  margin-top: 15px;
+  padding-top: 10px;
+}
+
+.Members h5, .Activity h5 {
+  margin-bottom: 15px;
+}
+
+.Member, .Event {
+  margin-bottom: 10px;
+}
+
 .add-list {
   position: relative;
   top: -10px;

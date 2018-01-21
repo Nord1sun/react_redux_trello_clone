@@ -41,7 +41,7 @@ class BoardDisplay extends PureComponent {
 BoardDisplay.propTypes = {
   currentUser: PropTypes.object.isRequired,
   getBoards: PropTypes.func.isRequired,
-  boards: PropTypes.array.isRequired,
+  boards: PropTypes.array,
   selectedBoard: PropTypes.object,
   isFetching: PropTypes.bool,
   error: PropTypes.string,

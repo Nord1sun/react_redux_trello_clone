@@ -32,8 +32,9 @@ class List extends PureComponent {
             type="textarea"
             rows="1"
             className="TitleInput"
-            onBlur={(e) => updateTitle(list.id, e)}>{list.title}
-          </Input>
+            defaultValue={list.title}
+            onBlur={(e) => updateTitle(list.id, e)}
+          />
           <a href="" className="DeleteList" onClick={this.toggleDeleteModal}>X</a>
         </CardHeader>
         <CardBody className="ListBody">
@@ -44,7 +45,6 @@ class List extends PureComponent {
             Add a card...
           </CardFooter>
         </a>
-
         <Modal isOpen={this.state.isDeleteModalOpen} toggle={this.toggleDeleteModal}>
           <ModalHeader toggle={this.toggleDeleteModal}>Delete {list.title}</ModalHeader>
           <ModalBody>
