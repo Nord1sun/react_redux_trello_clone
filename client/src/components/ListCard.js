@@ -1,14 +1,21 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardBody, CardText, Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Card, CardBody, CardText, Modal, ModalHeader, ModalBody, Input } from 'reactstrap';
 import Member from './Member';
 import Event from './Event';
 
-class ListCard extends PureComponent {
-  constructor() {
-    super();
-    this.state = { isModalOpen: false };
+class ListCard extends Component {
+  constructor(props) {
+    super(props);
+    const descriptionLength = props.card.description.length - 1;
+    this.state = {
+      isModalOpen: false,
+      currentTitleInput: props.card.description,
+      textareaHeight: `${ descriptionLength - (descriptionLength * 0.15) }px`
+    };
+
     this.toggleModal = this.toggleModal.bind(this);
+    this.adjustTextareaHeight = this.adjustTextareaHeight.bind(this);
   }
 
   toggleModal(e) {
@@ -16,8 +23,22 @@ class ListCard extends PureComponent {
     this.setState({ isModalOpen: !this.state.isModalOpen });
   }
 
+  adjustTextareaHeight(e) {
+    const hiddenListDesc = document.getElementById('hidden-description');
+
+    if (hiddenListDesc) {
+      this.setState({
+        currentTitleInput: e ? e.target.value : this.state.currentTitleInput
+      }, () => {
+        this.setState({
+          textareaHeight: `${ hiddenListDesc.clientHeight - (hiddenListDesc.clientHeight * .1)  }px`
+        });
+      });
+    }
+  }
+
   render() {
-    const { card } = this.props;
+    const { card, updateCard, markCompleted, deleteCard } = this.props;
     const members = card.Users.map(user => <Member user={user} key={user.id}/>);
     const activity = card.Events.map(event => <Event event={event} key={event.id}/>);
 
@@ -25,7 +46,15 @@ class ListCard extends PureComponent {
       <div className="ListCard">
         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal} tag="h5" className="list-card-header">
-            {card.description}
+            <span id="hidden-description">{this.state.currentTitleInput}</span>
+            <Input
+              type="textarea"
+              className="TitleInput form-control"
+              defaultValue={card.description}
+              style={{ height: this.state.textareaHeight }}
+              onChange={this.adjustTextareaHeight}
+              onBlur={(e) => updateCard(card, e)}
+            />
           </ModalHeader>
           <ModalBody className="list-card-body">
             <div className="row justify-content-between card-header-info">
@@ -33,7 +62,14 @@ class ListCard extends PureComponent {
                 <small><span className="text-muted">In list:</span> {card.List.title}</small>
               </div>
               <div className="col-sm-4 text-right">
-                <small><a href="" className="card-link">Mark Completed</a></small>
+                {card.completed
+                  ? (
+                    <div>
+                      <span className="text-success complete">Completed</span>
+                      <small><a href="" className="card-link" onClick={(e) => deleteCard(card.id, e)}>Delete Card</a></small>
+                    </div>
+                  )
+                  : <small><a href="" className="card-link" onClick={(e) => markCompleted(card, e)}>Mark Completed</a></small>}
               </div>
             </div>
             <div className="Members">
@@ -49,7 +85,7 @@ class ListCard extends PureComponent {
         </Modal>
 
         <a href="" onClick={this.toggleModal}>
-          <Card>
+          <Card color={card.completed ? "success" : ""}>
             <CardBody>
               <CardText>
                 {card.description}
@@ -63,7 +99,8 @@ class ListCard extends PureComponent {
 }
 
 ListCard.propTypes = {
-  card: PropTypes.object.isRequired
+  card: PropTypes.object.isRequired,
+  updateCard: PropTypes.func.isRequired
 };
 
 export default ListCard;

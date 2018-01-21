@@ -1,6 +1,7 @@
 import * as BoardActions from '../actions/boardActions';
 import * as TitleActions from '../actions/boardTitleActions';
 import * as ListActions from '../actions/listActions';
+import * as CardActions from '../actions/cardActions';
 
 const initialState = {
   boards: [],
@@ -67,6 +68,8 @@ const boardData = (state = initialState, action) => {
     case ListActions.ADD_LIST_SUCCESS:
     case ListActions.UPDATE_LIST_SUCCESS:
     case ListActions.DELETE_LIST_SUCCESS:
+    case CardActions.UPDATE_CARD_SUCCESS:
+    case CardActions.DELETE_CARD_SUCCESS:
       boards = action.data.boards.sort((a, b) => a.title.localeCompare(b.title));
       selectedBoard = boards.find(board => board.id === state.selectedBoard.id);
       return {

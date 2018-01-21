@@ -183,12 +183,25 @@ h6.card-title {
   padding: 1rem 1rem 0;
 }
 
+.list-card-header h5 {
+  width: 100%;
+}
+
+#hidden-description {
+  display: inline-block;
+  position: fixed;
+  visibility: hidden;
+  width: 90%;
+  overflow-wrap: break-word;
+}
+
 .list-card-body {
   padding-top: 0;
 }
 
 .card-header-info {
   max-height: 20px;
+  margin-bottom: 27px;
 }
 
 .card-link {
@@ -271,6 +284,11 @@ a.add-list {
   padding: 3px 2px;
   width: 90%;
   display: inline;
+  min-height: 30px !important;
+}
+
+.complete {
+  display: block;
 }
 
 a.DeleteList {

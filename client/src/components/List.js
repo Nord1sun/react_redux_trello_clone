@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardHeader, CardBody, CardFooter, Input,
   Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import ListCard from './ListCard';
+import ListCardContainer from '../containers/ListCardContainer';
 
 
 class List extends PureComponent {
@@ -13,7 +13,7 @@ class List extends PureComponent {
   }
 
   toggleDeleteModal(e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
     this.setState({
       isDeleteModalOpen: !this.state.isDeleteModalOpen
     });
@@ -22,7 +22,7 @@ class List extends PureComponent {
   render() {
     const { list, updateTitle, deleteList } = this.props;
     const cards = list.Cards.map(card => {
-      return <ListCard key={card.id} card={card}/>;
+      return <ListCardContainer key={card.id} card={card}/>;
     });
 
     return (

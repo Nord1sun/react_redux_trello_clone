@@ -18,11 +18,12 @@ app.use(bodyParser.json());
 const sessions = require('./routers/sessions');
 const boards = require('./routers/boards');
 const lists = require('./routers/lists');
+const cards = require('./routers/cards');
 
 app.use('/api/v1/sessions', sessions);
 app.use('/api/v1/boards', boards);
 app.use('/api/v1/lists', lists);
-
+app.use('/api/v1/cards', cards);
 
 const errorHandler = (err, req, res, next) => {
   res.status(err.response ? err.response.status : 500);

@@ -35,9 +35,21 @@ async function validateParamId(req, res, next) {
   next();
 }
 
+async function checkIfCardMember(user, card, res, next) {
+  const members = await card.getUsers();
+  const memberIds = members.map(member => member.id);
+
+  // user is not a member
+  if (memberIds.indexOf(user.id) === -1) {
+    res.status(401).json({ status: 401, message: 'Unauthorized' });
+    next();
+  }
+}
+
 module.exports = {
   findUserByToken,
   checkForListTitle,
   checkForList,
-  validateParamId
+  validateParamId,
+  checkIfCardMember
 };

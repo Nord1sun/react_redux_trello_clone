@@ -4,6 +4,7 @@ import sessionError from './sessionErrorReducer';
 import boardData from './boardsReducer';
 import boardTitle from './boardTitleReducer';
 import list from './listReducer';
+import card from './cardReducer';
 import { USER_LOGOUT } from '../actions/sessionActions';
 
 const reducers = {
@@ -11,7 +12,8 @@ const reducers = {
   sessionError,
   boardData,
   boardTitle,
-  list
+  list,
+  card
 };
 
 const appReducer = combineReducers(reducers);
