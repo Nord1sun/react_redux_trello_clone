@@ -6,10 +6,11 @@ import NewListForm from '../NewListForm';
 
 class Board extends PureComponent {
   render() {
-    const { board, onNewList, isNewFormOpen, toggleListForm, listFormError, updateListTitle } = this.props;
+    const { board, onNewList, isNewFormOpen, toggleListForm,
+      listFormError, updateListTitle, deleteList } = this.props;
 
     const lists = board ? board.Lists.map(list => {
-      return <List key={list.id} list={list} updateTitle={updateListTitle}/>;
+      return <List key={list.id} list={list} updateTitle={updateListTitle} deleteList={deleteList}/>;
     }) : null;
 
     return (
@@ -43,7 +44,8 @@ Board.propTypes = {
   isNewFormOpen: PropTypes.bool.isRequired,
   toggleListForm: PropTypes.func.isRequired,
   listFormError: PropTypes.string,
-  updateListTitle: PropTypes.func.isRequired
+  updateListTitle: PropTypes.func.isRequired,
+  deleteList: PropTypes.func.isRequired
 };
 
 export default Board;

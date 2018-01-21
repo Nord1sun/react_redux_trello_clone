@@ -160,7 +160,7 @@ h6.card-title {
 
 .add-list {
   position: relative;
-  top: 5px;
+  top: -10px;
   width: 270px;
   display: inline-flex;
 }
@@ -182,7 +182,7 @@ a.add-list {
 
 .List.NewList {
   position: relative;
-  top: 10px;
+  top: -6px;
 }
 
 .ListCard {
@@ -212,7 +212,22 @@ a.add-list {
   border: none;
   background: none;
   font-weight: bold;
-  padding-left: 2px;
+  padding: 3px 2px;
+  width: 90%;
+  display: inline;
+}
+
+a.DeleteList {
+  position: relative;
+  top: -18px;
+  left: 15px;
+  font-size: .8em;
+  color: #999;
+  text-decoration: none;
+}
+
+a.DeleteList:hover {
+  color: #4d4d4d;
 }
 
 /*********** Loader Styles *************/

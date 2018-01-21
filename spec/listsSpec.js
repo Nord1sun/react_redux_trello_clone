@@ -5,7 +5,7 @@ const { User, Board, List } = require('./../models');
 
 describe('Lists', () => {
   const apiUrl = 'http://localhost:3001/api/v1/lists';
-  let server, user1, user2, board1, list1;
+  let server, user1, user2, board1, board2, list1, list2;
 
   beforeAll(done => {
     server = app.listen(8888, () => {
@@ -31,16 +31,21 @@ describe('Lists', () => {
       })
       .then(board => {
         board1 = board;
+        return Board.create({ title: 'board2', UserId: user2.id });
+      })
+      .then(board => {
+        board2 = board;
         return List.create({ title: 'list1', description: 'lorem ipsum dolor', BoardId: board1.id });
       })
       .then(list => {
         list1 = list;
-        return List.create({ title: 'list2', description: 'lorem ipsum dolor', BoardId: board1.id });
+        return List.create({ title: 'list2', description: 'lorem ipsum dolor', BoardId: board2.id });
       })
-      .then(() => {
+      .then(list => {
+        list2 = list;
         done();
       })
-      .catch(e => console.error(e));
+      .catch(e => done.fail(e));
   });
 
   describe('POST lists', () => {
@@ -55,11 +60,10 @@ describe('Lists', () => {
         try {
           const lists = await board1.getLists();
           expect(lists[lists.length - 1].title).toEqual('New List');
-          expect(lists.length).toEqual(3);
+          expect(lists.length).toEqual(2);
           done();
         } catch (e) {
-          console.error(e.stack);
-          done.fail();
+          done.fail(e);
         }
       });
     });
@@ -74,11 +78,10 @@ describe('Lists', () => {
         expect(response.statusCode).toBe(403);
         try {
           const lists = await board1.getLists();
-          expect(lists.length).toEqual(2);
+          expect(lists.length).toEqual(1);
           done();
         } catch (e) {
-          console.error(e.stack);
-          done.fail();
+          done.fail(e);
         }
       });
     });
@@ -93,11 +96,10 @@ describe('Lists', () => {
         expect(response.statusCode).toBe(404);
         try {
           const lists = await board1.getLists();
-          expect(lists.length).toEqual(2);
+          expect(lists.length).toEqual(1);
           done();
         } catch (e) {
-          console.error(e.stack);
-          done.fail();
+          done.fail(e);
         }
       });
     });
@@ -112,11 +114,10 @@ describe('Lists', () => {
         expect(response.statusCode).toBe(400);
         try {
           const lists = await board1.getLists();
-          expect(lists.length).toEqual(2);
+          expect(lists.length).toEqual(1);
           done();
         } catch (e) {
-          console.error(e.stack);
-          done.fail();
+          done.fail(e);
         }
       });
     });
@@ -193,9 +194,72 @@ describe('Lists', () => {
         url: `${ apiUrl }/random?token=${ user1.token }`,
         method: 'PUT',
         json: body
-      }, async (err, response) => {
-        expect(response.statusCode).toBe(404);
-        expect(response.body.message).toEqual('List not found');
+      }, (err, response) => {
+        expect(response.statusCode).toBe(400);
+        expect(response.body.message).toEqual('Invalid ID param');
+        done();
+      });
+    });
+  });
+
+  describe('DELETE list', () => {
+    it('deletes the list with a valid token and id', (done) => {
+      request.delete(`${ apiUrl }/${ list1.id }?token=${ user1.token }`, async (err, response) => {
+        expect(response.statusCode).toEqual(200);
+        try {
+          const listCount = await List.count();
+          expect(listCount).toEqual(1);
+          done();
+        } catch (error) {
+          done.fail(error);
+        }
+      });
+    });
+
+    it('does not delete the list if it does not belong to the user', (done) => {
+      request.delete(`${ apiUrl }/${ list2.id }?token=${ user1.token }`, async (err, response) => {
+        expect(response.statusCode).toEqual(403);
+        try {
+          const listCount = await List.count();
+          expect(listCount).toEqual(2);
+          done();
+        } catch (error) {
+          done.fail(error);
+        }
+      });
+    });
+
+    it('does not delete the list if there is no token', (done) => {
+      request.delete(`${ apiUrl }/${ list2.id }`, async (err, response) => {
+        expect(response.statusCode).toEqual(403);
+        try {
+          const listCount = await List.count();
+          expect(listCount).toEqual(2);
+          done();
+        } catch (error) {
+          done.fail(error);
+        }
+      });
+    });
+
+    it('does not delete the list if the token is invalid', (done) => {
+      request.delete(`${ apiUrl }/${ list2.id }?token=asdf123`, async (err, response) => {
+        expect(response.statusCode).toEqual(404);
+        try {
+          const listCount = await List.count();
+          expect(listCount).toEqual(2);
+          done();
+        } catch (error) {
+          done.fail(error);
+        }
+      });
+    });
+
+    it('sends an invalid response if the list id param is invalid', (done) => {
+      request.delete(`${ apiUrl }/hello123?token=${ user1.token }`, (err, response) => {
+        const result = JSON.parse(response.body);
+        expect(response.statusCode).toBe(400);
+        expect(result.message).toEqual('Invalid ID param');
         done();
       });
     });

@@ -8,6 +8,9 @@ export const TOGGLE_NEW_FORM = 'TOGGLE_NEW_FORM';
 export const UPDATE_LIST_REQUEST = 'UPDATE_LIST_REQUEST';
 export const UPDATE_LIST_SUCCESS = 'UPDATE_LIST_SUCCESS';
 export const UPDATE_LIST_FAILURE = 'UPDATE_LIST_FAILURE';
+export const DELETE_LIST_REQUEST = 'DELETE_LIST_REQUEST';
+export const DELETE_LIST_SUCCESS = 'DELETE_LIST_SUCCESS';
+export const DELETE_LIST_FAILURE = 'DELETE_LIST_FAILURE';
 
 export function addListRequest() {
   return { type: ADD_LIST_REQUEST };
@@ -94,3 +97,45 @@ export function updateTitle(id, title) {
       .catch(e => dispatch(updateListFailure(e)));
   };
 }
+
+export function deleteListRequest() {
+  return { type: DELETE_LIST_REQUEST };
+}
+
+export function deleteListSuccess(data) {
+  return {
+    type: DELETE_LIST_SUCCESS,
+    data
+  };
+}
+
+export function deleteListFailure(error) {
+  return {
+    type: DELETE_LIST_FAILURE,
+    error
+  };
+}
+
+export function deleteList(listId) {
+  return (dispatch) => {
+    dispatch(deleteListRequest());
+
+    sessionService.loadSession()
+      .then(session => {
+        return fetch(`/api/v1/lists/${ listId }?token=${ session.token }`, {
+          method: 'DELETE'
+        });
+      })
+      .then(checkStatus)
+      .then(data => {
+        dispatch(deleteListSuccess(data));
+      })
+      .catch(e => dispatch(deleteListFailure(e)));
+  };
+}
+
+
+
+
+
+
