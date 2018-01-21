@@ -44,7 +44,7 @@ describe('Lists', () => {
   });
 
   describe('POST lists', () => {
-    it('creates a new board with a valid token', (done) => {
+    it('creates a new list with a valid token', (done) => {
       const body = { BoardId: board1.id, title: 'New List' };
       request({
         url: `${ apiUrl }?token=${ user1.token }`,
@@ -64,7 +64,7 @@ describe('Lists', () => {
       });
     });
 
-    it('does not create a board if there is no token', (done) => {
+    it('does not create a list if there is no token', (done) => {
       const body = { BoardId: board1.id, title: 'New List' };
       request({
         url: apiUrl,
@@ -83,7 +83,7 @@ describe('Lists', () => {
       });
     });
 
-    it('does not create a board if the token in invalid', (done) => {
+    it('does not create a list if the token in invalid', (done) => {
       const body = { BoardId: board1.id, title: 'New List' };
       request({
         url: `${ apiUrl }?token=nlknlk1123`,
@@ -102,7 +102,7 @@ describe('Lists', () => {
       });
     });
 
-    it('does not create a board if there is title', (done) => {
+    it('does not create a list if there is no title', (done) => {
       const body = { BoardId: board1.id, title: '' };
       request({
         url: `${ apiUrl }?token=${ user1.token }`,
@@ -118,6 +118,85 @@ describe('Lists', () => {
           console.error(e.stack);
           done.fail();
         }
+      });
+    });
+  });
+
+  describe('PUT lists', () => {
+    it('changes the title with a valid token', (done) => {
+      const body = { title: 'New Title' };
+      request({
+        url: `${ apiUrl }/${ list1.id }?token=${ user1.token }`,
+        method: 'PUT',
+        json: body
+      }, async (err, response) => {
+        expect(response.statusCode).toBe(200);
+        try {
+          const list = await List.findById(list1.id);
+          expect(list.title).toEqual('New Title');
+          done();
+        } catch (error) {
+          done.fail(error);
+        }
+      });
+    });
+
+    it('does not change the title if there is no token', (done) => {
+      const body = { title: 'New Title' };
+      request({
+        url: `${ apiUrl }/${ list1.id }`,
+        method: 'PUT',
+        json: body
+      }, async (err, response) => {
+        expect(response.statusCode).toBe(403);
+        try {
+          const list = await List.findById(list1.id);
+          expect(list.title).toEqual('list1');
+          done();
+        } catch (error) {
+          done.fail(error);
+        }
+      });
+    });
+
+    it('does not change the title if the token in invalid', (done) => {
+      const body = { title: 'New Title' };
+      request({
+        url: `${ apiUrl }/${ list1.id }?token=asdf123`,
+        method: 'PUT',
+        json: body
+      }, async (err, response) => {
+        expect(response.statusCode).toBe(404);
+        try {
+          const list = await List.findById(list1.id);
+          expect(list.title).toEqual('list1');
+          done();
+        } catch (error) {
+          done.fail(error);
+        }
+      });
+    });
+
+    it('does not change the title if there is no title in the request body', (done) => {
+      request({
+        url: `${ apiUrl }/${ list1.id }?token=asdf123`,
+        method: 'PUT'
+      }, (err, response) => {
+        expect(response.statusCode).toBe(400);
+        done();
+      });
+    });
+
+    it('sends an invalid response if the list id param is invalid', (done) => {
+      const body = { title: 'New Title' };
+      request({
+        url: `${ apiUrl }/random?token=${ user1.token }`,
+        method: 'PUT',
+        json: body
+      }, async (err, response) => {
+        expect(response.statusCode).toBe(404);
+        expect(response.body.message).toEqual('List not found');
+        done();
       });
     });
   });

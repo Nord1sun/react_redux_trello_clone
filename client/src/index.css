@@ -19,7 +19,7 @@ a, a:hover, a:focus {
   color: #fff;
   background-color: #0064a8;
   border-bottom: none;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 .App-title {
@@ -42,7 +42,7 @@ a, a:hover, a:focus {
 }
 
 .card-header {
-  padding: 7px 10px 5px;
+  padding: 7px 10px 0;
   border-bottom: none;
   background: none;
 }
@@ -130,13 +130,22 @@ h6.card-title {
   margin-right: 10px;
 }
 
+.Board {
+  white-space: nowrap;
+  overflow-x: scroll;
+  min-height: 100px;
+}
+
 .List {
   background-color: #efefef;
   margin-bottom: 10px;
+  width: 270px;
+  display: inline-flex;
+  margin-right: 10px;
 }
 
 .ListBody {
-  max-height: 300px;
+  max-height: 280px;
   overflow-y: scroll;
   overflow: -moz-scrollbars-vertical;
 }
@@ -149,9 +158,18 @@ h6.card-title {
   font-size: .85em;
 }
 
+.add-list {
+  position: relative;
+  top: 5px;
+  width: 270px;
+  display: inline-flex;
+}
+
 .AddList {
   background: rgba(0,0,0,.12);
   padding: 10px;
+  width: 100%;
+
 }
 
 .AddList:hover, .AddList:focus {
@@ -162,8 +180,14 @@ a.add-list {
   text-decoration: none;
 }
 
+.List.NewList {
+  position: relative;
+  top: 10px;
+}
+
 .ListCard {
   margin-bottom: 7px;
+  white-space: normal;
 }
 
 .cancel-edit-link {
@@ -176,6 +200,19 @@ a.add-list {
 .cancel-edit-link:hover, .cancel-edit-link:focus {
   color: #4d4d4d;
   text-decoration: none;
+}
+
+.ListCard a {
+  color: #4d4d4d;
+  text-decoration: none;
+}
+
+.TitleInput {
+  resize: none;
+  border: none;
+  background: none;
+  font-weight: bold;
+  padding-left: 2px;
 }
 
 /*********** Loader Styles *************/

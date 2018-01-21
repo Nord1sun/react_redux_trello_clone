@@ -6,45 +6,44 @@ import NewListForm from '../NewListForm';
 
 class Board extends PureComponent {
   render() {
-    const { board, onNewList, isNewFormOpen, toggleListForm, listFormError } = this.props;
+    const { board, onNewList, isNewFormOpen, toggleListForm, listFormError, updateListTitle } = this.props;
 
     const lists = board ? board.Lists.map(list => {
-      return <List key={list.id} list={list}/>;
+      return <List key={list.id} list={list} updateTitle={updateListTitle}/>;
     }) : null;
 
     return (
-      <div className="Board row justify-content-left">
+      <div className="Board">
         {lists}
-        <div className="col-sm-3">
-          {isNewFormOpen
-            ? (
-              <NewListForm
-                onNewList={onNewList}
-                board={board}
-                toggle={toggleListForm}
-                error={listFormError}
-              />
-            )
-            : (
-              <a href="" className="add-list" onClick={toggleListForm}>
-                <Card className="AddList">
-                  Add a list...
-                </Card>
-              </a>
-            )
-          }
-        </div>
+        {isNewFormOpen
+          ? (
+            <NewListForm
+              onNewList={onNewList}
+              board={board}
+              toggle={toggleListForm}
+              error={listFormError}
+            />
+          )
+          : (
+            <a href="" className="add-list" onClick={toggleListForm}>
+              <Card className="AddList pull-left">
+                Add a list...
+              </Card>
+            </a>
+          )
+        }
       </div>
     );
   }
 }
 
 Board.propTypes = {
-  board: PropTypes.object.isRequired,
+  board: PropTypes.object,
   onNewList: PropTypes.func.isRequired,
   isNewFormOpen: PropTypes.bool.isRequired,
   toggleListForm: PropTypes.func.isRequired,
-  listFormError: PropTypes.string
+  listFormError: PropTypes.string,
+  updateListTitle: PropTypes.func.isRequired
 };
 
 export default Board;

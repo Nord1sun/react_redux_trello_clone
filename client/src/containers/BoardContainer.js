@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Board from '../components/boards/Board';
 import serialize from 'form-serialize';
-import { addNewList, toggleNewListForm } from '../actions/listActions';
+import { addNewList, toggleNewListForm, updateTitle } from '../actions/listActions';
 
 const mapStateToProps = (state) => {
   return {
@@ -21,6 +21,12 @@ const mapDispatchToProps = (dispatch) => {
     toggleListForm: (e) => {
       e.preventDefault();
       dispatch(toggleNewListForm());
+    },
+    updateListTitle: (listId, e) => {
+      const title = e.target.value;
+      setTimeout(() => {
+        dispatch(updateTitle(listId, title));
+      }, 1000);
     }
   };
 };

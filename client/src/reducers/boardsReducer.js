@@ -65,6 +65,7 @@ const boardData = (state = initialState, action) => {
         selectedBoard: action.data.board
       };
     case ListActions.ADD_LIST_SUCCESS:
+    case ListActions.UPDATE_LIST_SUCCESS:
       boards = action.data.boards.sort((a, b) => a.title.localeCompare(b.title));
       selectedBoard = boards.find(board => board.id === state.selectedBoard.id);
       return {
