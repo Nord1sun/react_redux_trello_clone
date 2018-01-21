@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Header from './Header';
+import HeaderContainer from '../containers/HeaderContainer';
 import BoardDisplayContainer from '../containers/BoardDisplayContainer';
 import Login from './Login';
 import PrivateRoute from './PrivateRoute';
@@ -12,7 +12,7 @@ const App = ({ session }) => (
     <Router>
       { session.checked &&
         <div>
-          <Header session={session} />
+          <HeaderContainer session={session} />
           <PrivateRoute exact path="/" component={BoardDisplayContainer} authenticated={session.authenticated}/>
           <Route path="/login" component={Login}/>
         </div>

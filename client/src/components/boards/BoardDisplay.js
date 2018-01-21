@@ -17,8 +17,7 @@ class BoardDisplay extends PureComponent {
   }
 
   render() {
-    const { boards, selectedBoard, isFetching, error, selectBoard,
-      createBoard, deleteBoard} = this.props;
+    const { selectedBoard, isFetching, error, deleteBoard} = this.props;
 
     return (
       <div className="Board container-fluid">
@@ -28,10 +27,7 @@ class BoardDisplay extends PureComponent {
           : (
             <div className="BoardDisplay">
               <BoardDisplayHeading
-                boards={boards}
                 selectedBoard={selectedBoard}
-                selectBoard={selectBoard}
-                createBoard={createBoard}
                 deleteBoard={deleteBoard}
               />
               <BoardContainer />
@@ -49,8 +45,6 @@ BoardDisplay.propTypes = {
   selectedBoard: PropTypes.object,
   isFetching: PropTypes.bool,
   error: PropTypes.string,
-  selectBoard: PropTypes.func.isRequired,
-  createBoard: PropTypes.func.isRequired,
   deleteBoard: PropTypes.func.isRequired
 };
 

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { logout } from '../actions/sessionActions';
-import { Collapse, Navbar, NavbarToggler, Nav, NavItem, NavLink } from 'reactstrap';
+import { Collapse, Navbar, NavbarToggler, Nav, UncontrolledDropdown,
+  DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import ProfileImg from './elements/ProfileImg';
 
 class Header extends Component {
@@ -12,16 +13,24 @@ class Header extends Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isNavbarOpen: false
     };
   }
   toggle() {
     this.setState({
-      isOpen: !this.state.isOpen
+      isNavbarOpen: !this.state.isNavbarOpen
     });
   }
   render() {
-    const { session, history, logout } = this.props;
+    const { session, history, logout, boards, selectedBoard, selectBoard, createBoard } = this.props;
+
+    const boardLinks = boards.map(board => {
+      return (
+        <DropdownItem key={board.id} tag="a" href="" onClick={selectBoard}>
+          {board.title}
+        </DropdownItem>
+      );
+    });
 
     return (
       <div className="App-header">
@@ -30,15 +39,33 @@ class Header extends Component {
           <NavbarToggler onClick={this.toggle} />
           {session.authenticated
             ? (
-              <Collapse isOpen={this.state.isOpen} navbar>
+              <Collapse isOpen={this.state.isNavbarOpen} navbar>
                 <Nav className="ml-auto" navbar>
-                  <NavItem className="navUserId">
-                    <ProfileImg user={session.user}/>
-                    Welcome {session.user.fullName}!
-                  </NavItem>
-                  <NavItem>
-                    <NavLink href="" onClick={(e) => logout(history, e)}>Logout</NavLink>
-                  </NavItem>
+                  <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle nav caret>
+                      {selectedBoard
+                        ? selectedBoard.title
+                        : 'Boards'}
+                    </DropdownToggle>
+                    <DropdownMenu >
+                      {boardLinks}
+                      <DropdownItem divider />
+                      <DropdownItem tag="a" href="" onClick={createBoard}>
+                        + New Board
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                  <UncontrolledDropdown nav inNavbar className="profile-navlink">
+                    <DropdownToggle nav caret>
+                      <ProfileImg user={session.user}/>
+                      {session.user.fullName}!
+                    </DropdownToggle>
+                    <DropdownMenu >
+                      <DropdownItem tag="a" onClick={(e) => logout(history, e)} href="">
+                        Logout
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
                 </Nav>
               </Collapse>
             )
@@ -52,7 +79,11 @@ class Header extends Component {
 Header.propTypes = {
   session: PropTypes.object.isRequired,
   logout: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  boards: PropTypes.object,
+  selectedBoard: PropTypes.object,
+  selectBoard: PropTypes.func.isRequired,
+  createBoard: PropTypes.func.isRequired
 };
 
 const mapdispatchToProps = (dispatch) => {

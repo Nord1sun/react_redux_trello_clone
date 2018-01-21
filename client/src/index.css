@@ -11,6 +11,11 @@ a, a:hover, a:focus {
   color: #fff;
 }
 
+.profile-navlink {
+  position: relative;
+  top: -2px;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -74,6 +79,11 @@ h6.card-title {
   color: #fff !important;
 }
 
+.dropdown-item .nav-link {
+  color: #565656 !important;
+  padding: 0 15px;
+}
+
 .navUserId {
   display: block;
   padding: 0.4rem 1rem;
@@ -124,6 +134,16 @@ h6.card-title {
 
 .delete-board-link, .delete-board-button {
   margin-right: 15px;
+}
+
+.delete-board-link {
+  position: relative;
+  top: -15px;
+}
+
+.delete-board-link:hover {
+  text-decoration: none;
+  color: rgba(0,0,0,.6);
 }
 
 .form-button {

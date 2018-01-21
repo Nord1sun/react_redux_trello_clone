@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Form, FormGroup, Label, Col, Input } from 'reactstrap';
 import BoardTitleContainer from '../../containers/BoardTitleContainer';
 import DeleteBoardModal from './DeleteBoardModal';
 
@@ -20,12 +19,7 @@ class BoardDisplayHeading extends PureComponent {
   }
 
   render() {
-    const { boards, selectedBoard, selectBoard, createBoard, deleteBoard} = this.props;
-    const boardOptions = boards.map(board => {
-      return (
-        <option key={board.id}>{board.title}</option>
-      );
-    });
+    const { selectedBoard, deleteBoard} = this.props;
 
     return (
       <div className="BoardDisplayHeading row justify-content-between align-items-center">
@@ -35,20 +29,6 @@ class BoardDisplayHeading extends PureComponent {
             : null}
         </div>
         <div className="col-md-4">
-          {boards.length
-            ? (
-              <Form>
-                <FormGroup row className="select-board">
-                  <Label for="board" sm={5}>Select Board:</Label>
-                  <Col sm={7}>
-                    <Input type="select" name="board" value={selectedBoard.title} onChange={selectBoard}>
-                      {boardOptions}
-                    </Input>
-                  </Col>
-                </FormGroup>
-              </Form>
-            )
-            : null}
           <div className="container">
             <div className="row justify-content-end board-links">
               {selectedBoard
@@ -57,7 +37,7 @@ class BoardDisplayHeading extends PureComponent {
                     <a
                       href=""
                       className="delete-board-link"
-                      onClick={this.toggleDeleteModal}>Delete Board
+                      onClick={this.toggleDeleteModal}>X
                     </a>
                     <DeleteBoardModal
                       isOpen={this.state.deleteModalOpen}
@@ -68,7 +48,6 @@ class BoardDisplayHeading extends PureComponent {
                   </div>
                 )
                 : null}
-              <a href="" onClick={createBoard}>New Board</a>
             </div>
           </div>
         </div>
@@ -80,8 +59,6 @@ class BoardDisplayHeading extends PureComponent {
 BoardDisplayHeading.propTypes = {
   boards: PropTypes.array.isRequired,
   selectedBoard: PropTypes.object,
-  selectBoard: PropTypes.func.isRequired,
-  createBoard: PropTypes.func.isRequired,
   deleteBoard: PropTypes.func.isRequired
 };
 
