@@ -26,7 +26,11 @@ class Board extends PureComponent {
             />
           )
           : (
-            <a href="" className="add-list" onClick={toggleListForm}>
+            <a
+              href=""
+              className={board && board.Lists.length ? "add-list shift-down" : "add-list"}
+              onClick={toggleListForm}
+            >
               <Card className="AddList pull-left">
                 Add a list...
               </Card>

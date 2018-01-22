@@ -6,7 +6,7 @@ class NewListFrom extends PureComponent {
   render() {
     const { onNewList, board, toggle, error } = this.props;
     return (
-      <Card className="List NewList">
+      <Card className={board.Lists.length ? "List NewList" : "List"}>
         {error ? <Alert color="danger">{error}</Alert> : null}
         <CardBody>
           <Form onSubmit={onNewList}>

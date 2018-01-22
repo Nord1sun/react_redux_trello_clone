@@ -228,10 +228,13 @@ h6.card-title {
 }
 
 .add-list {
-  position: relative;
-  top: -10px;
   width: 270px;
   display: inline-flex;
+}
+
+.add-list.shift-down {
+  position: relative;
+  top: -10px;
 }
 
 .AddList {
