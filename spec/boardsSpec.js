@@ -5,7 +5,7 @@ const { User, Board, List, Card, Event } = require('./../models');
 
 describe('Boards', () => {
   const apiUrl = 'http://localhost:3001/api/v1/boards';
-  let server, user1, user2, board1, card1;
+  let server, user1, user2, board1, board2, card1;
 
   beforeAll(done => {
     server = app.listen(8888, () => {
@@ -33,7 +33,8 @@ describe('Boards', () => {
         board1 = board;
         return Board.create({ title: 'board2', UserId: user1.id });
       })
-      .then(() => {
+      .then(board => {
+        board2 = board;
         return Board.create({ title: 'board3', UserId: user2.id });
       })
       .then(() => {
@@ -52,7 +53,7 @@ describe('Boards', () => {
       .then(() => {
         done();
       })
-      .catch(e => console.error(e));
+      .catch(e => done.fail(e));
   });
 
   describe('GET boards', () => {
@@ -65,6 +66,25 @@ describe('Boards', () => {
         expect(result.boards[1].title).toEqual('board2');
         done();
       });
+    });
+
+    it('returns the boards of the cards that the user is a member of', async (done) => {
+      try {
+        const list2 = await List.create({ title: 'list2', description: 'lorem ipsum dolor', BoardId: board2.id });
+        const card2 = await Card.create({ title: 'card2', description: 'some description', ListId: list2.id });
+        await card2.addUser(user2);
+        request(`${ apiUrl }/${ user2.id }`, (err, response, body) => {
+          const result = JSON.parse(body);
+          expect(response.statusCode).toBe(200);
+          expect(result.boards.length).toEqual(3);
+          expect(result.boards[0].title).toEqual('board1');
+          expect(result.boards[1].title).toEqual('board2');
+          done();
+        });
+      } catch (error) {
+        done.fail(error);
+      }
+
     });
 
     it('returns the requested board with it\'s lists', done => {

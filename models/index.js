@@ -37,7 +37,6 @@ Card.belongsTo(List);
 Card.belongsToMany(User, { through: 'UserCard' });
 User.belongsToMany(Card, { through: 'UserCard' });
 
-
 User.hasMany(Event);
 Event.belongsTo(User);
 

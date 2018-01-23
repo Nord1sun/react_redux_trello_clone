@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import ProfileImg from './elements/ProfileImg';
+import ProfileImg from '../elements/ProfileImg';
 import moment from 'moment';
 
 class Event extends PureComponent {

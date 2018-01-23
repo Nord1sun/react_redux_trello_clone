@@ -70,12 +70,15 @@ const boardData = (state = initialState, action) => {
     case ListActions.DELETE_LIST_SUCCESS:
     case CardActions.UPDATE_CARD_SUCCESS:
     case CardActions.DELETE_CARD_SUCCESS:
+    case CardActions.ADD_CARD_SUCCESS:
+    case CardActions.ADD_MEMBER_SUCCESS:
+    case CardActions.REMOVE_MEMBER_SUCCESS:
       boards = action.data.boards.sort((a, b) => a.title.localeCompare(b.title));
       selectedBoard = boards.find(board => board.id === state.selectedBoard.id);
       return {
         ...state,
         boards,
-        selectedBoard
+        selectedBoard: selectedBoard || boards[0]
       };
     default:
       return state;

@@ -29,7 +29,7 @@ async function checkForList(list, res, next) {
 }
 
 async function validateParamId(req, res, next) {
-  if (!parseInt(req.params.id)) {
+  if (!parseInt(req.params.id) || (req.params.userId && !parseInt(req.params.userId))) {
     res.status(400).json({ status: 400, message: 'Invalid ID param' });
   }
   next();

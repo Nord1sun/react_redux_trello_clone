@@ -3,19 +3,30 @@ import PropTypes from 'prop-types';
 import { Card, CardHeader, CardBody, CardFooter, Input,
   Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
 import ListCardContainer from '../containers/ListCardContainer';
-
+import NewCardFormContainer from '../containers/NewCardFormContainer';
 
 class List extends PureComponent {
   constructor() {
     super();
-    this.state = { isDeleteModalOpen: false };
+    this.state = {
+      isDeleteModalOpen: false,
+      isAddCardOpen: false
+    };
     this.toggleDeleteModal = this.toggleDeleteModal.bind(this);
+    this.toggleAddCard = this.toggleAddCard.bind(this);
   }
 
   toggleDeleteModal(e) {
     if (e) e.preventDefault();
     this.setState({
       isDeleteModalOpen: !this.state.isDeleteModalOpen
+    });
+  }
+
+  toggleAddCard(e) {
+    if (e) e.preventDefault();
+    this.setState({
+      isAddCardOpen: !this.state.isAddCardOpen
     });
   }
 
@@ -40,11 +51,17 @@ class List extends PureComponent {
         <CardBody className="ListBody">
           {cards}
         </CardBody>
-        <a href="">
-          <CardFooter>
-            Add a card...
-          </CardFooter>
-        </a>
+        {this.state.isAddCardOpen
+          ? (
+            <NewCardFormContainer list={list} toggle={this.toggleAddCard}/>
+          )
+          : (
+            <a href="" onClick={this.toggleAddCard}>
+              <CardFooter>
+                Add a card...
+              </CardFooter>
+            </a>
+          )}
         <Modal isOpen={this.state.isDeleteModalOpen} toggle={this.toggleDeleteModal}>
           <ModalHeader toggle={this.toggleDeleteModal}>Delete {list.title}</ModalHeader>
           <ModalBody>

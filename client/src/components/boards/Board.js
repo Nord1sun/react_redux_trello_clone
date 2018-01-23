@@ -13,32 +13,36 @@ class Board extends PureComponent {
       return <List key={list.id} list={list} updateTitle={updateListTitle} deleteList={deleteList}/>;
     }) : null;
 
-    return (
-      <div className="Board">
-        {lists}
-        {isNewFormOpen
-          ? (
-            <NewListForm
-              onNewList={onNewList}
-              board={board}
-              toggle={toggleListForm}
-              error={listFormError}
-            />
-          )
-          : (
-            <a
-              href=""
-              className={board && board.Lists.length ? "add-list shift-down" : "add-list"}
-              onClick={toggleListForm}
-            >
-              <Card className="AddList pull-left">
-                Add a list...
-              </Card>
-            </a>
-          )
-        }
-      </div>
-    );
+    if (board) {
+      return (
+        <div className="Board">
+          {lists}
+          {isNewFormOpen
+            ? (
+              <NewListForm
+                onNewList={onNewList}
+                board={board}
+                toggle={toggleListForm}
+                error={listFormError}
+              />
+            )
+            : (
+              <a
+                href=""
+                className={board && board.Lists.length ? "add-list shift-down" : "add-list"}
+                onClick={toggleListForm}
+              >
+                <Card className="AddList pull-left">
+                  Add a list...
+                </Card>
+              </a>
+            )
+          }
+        </div>
+      );
+    } else {
+      return <p className="text-center light-text">You have no boards yet. Click new board in the navigation to create one.</p>;
+    }
   }
 }
 

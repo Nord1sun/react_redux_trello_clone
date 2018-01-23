@@ -31,7 +31,7 @@ class BoardDisplayHeading extends PureComponent {
         <div className="col-md-4">
           <div className="container">
             <div className="row justify-content-end board-links">
-              {selectedBoard
+              {selectedBoard && !selectedBoard.notOwned
                 ? (
                   <div className="DeleteBoard">
                     <a

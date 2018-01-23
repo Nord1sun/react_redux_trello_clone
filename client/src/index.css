@@ -20,6 +20,10 @@ a, a:hover, a:focus {
   font-weight: bold;
 }
 
+.light-text {
+  color: #fff;
+}
+
 .App-header {
   color: #fff;
   background-color: #0064a8;
@@ -204,9 +208,14 @@ h6.card-title {
   margin-bottom: 27px;
 }
 
+.addCardDescription {
+  font-size: .85em;
+}
+
 .card-link {
   color: #838c91;
   text-decoration: underline;
+  cursor: pointer;
 }
 
 .card-link:hover, .card-link:focus {
@@ -225,6 +234,22 @@ h6.card-title {
 
 .Member, .Event {
   margin-bottom: 10px;
+}
+
+.AddMemberForm .dropdown-menu {
+  width: 300px;
+}
+
+.AddMemberForm .card-header {
+  padding-top: 0;
+}
+
+.AddMemberForm .card-body {
+  padding-top: 5px;
+}
+
+.MemberResultsRow, .no-result-msg {
+  margin-top: 15px;
 }
 
 .add-list {
@@ -294,7 +319,7 @@ a.add-list {
   display: block;
 }
 
-a.DeleteList {
+a.DeleteList, a.close {
   position: relative;
   top: -18px;
   left: 15px;
@@ -303,7 +328,7 @@ a.DeleteList {
   text-decoration: none;
 }
 
-a.DeleteList:hover {
+a.DeleteList:hover, a.close:hover {
   color: #4d4d4d;
 }
 

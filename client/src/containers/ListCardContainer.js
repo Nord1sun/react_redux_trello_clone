@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import ListCard from '../components/ListCard';
+import ListCard from '../components/cards/ListCard';
 import { updateCard, deleteCard } from '../actions/cardActions';
 
 const mapStateToProps = (state, ownProps) => {

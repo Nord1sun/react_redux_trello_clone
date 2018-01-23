@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardBody, CardText, Modal, ModalHeader, ModalBody, Input } from 'reactstrap';
-import Member from './Member';
+import MemberContainer from '../../containers/MemberContainer';
 import Event from './Event';
+import AddMemberFormContainer from '../../containers/AddMemberFormContainer';
 
 class ListCard extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class ListCard extends Component {
     this.state = {
       isModalOpen: false,
       currentTitleInput: props.card.description,
-      textareaHeight: `${ descriptionLength - (descriptionLength * 0.15) }px`
+      textareaHeight: `${ descriptionLength - (descriptionLength * 0.15) }px`,
     };
 
     this.toggleModal = this.toggleModal.bind(this);
@@ -31,7 +32,7 @@ class ListCard extends Component {
         currentTitleInput: e ? e.target.value : this.state.currentTitleInput
       }, () => {
         this.setState({
-          textareaHeight: `${ hiddenListDesc.clientHeight - (hiddenListDesc.clientHeight * .1)  }px`
+          textareaHeight: `${ hiddenListDesc.clientHeight - (hiddenListDesc.clientHeight * .1) }px`
         });
       });
     }
@@ -39,7 +40,7 @@ class ListCard extends Component {
 
   render() {
     const { card, updateCard, markCompleted, deleteCard } = this.props;
-    const members = card.Users.map(user => <Member user={user} key={user.id}/>);
+    const members = card.Users.map(user => <MemberContainer card={card} user={user} key={user.id}/>);
     const activity = card.Events.map(event => <Event event={event} key={event.id}/>);
 
     return (
@@ -75,7 +76,7 @@ class ListCard extends Component {
             <div className="Members">
               <h5>Members</h5>
               {members}
-              <small><a href="" className="card-link">Add Member</a></small>
+              <AddMemberFormContainer card={card}/>
             </div>
             <div className="Activity">
               <h5>Activity</h5>
@@ -100,7 +101,9 @@ class ListCard extends Component {
 
 ListCard.propTypes = {
   card: PropTypes.object.isRequired,
-  updateCard: PropTypes.func.isRequired
+  updateCard: PropTypes.func.isRequired,
+  markCompleted: PropTypes.func.isRequired,
+  deleteCard: PropTypes.func.isRequired
 };
 
 export default ListCard;
