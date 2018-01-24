@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardBody, CardText, Modal, ModalHeader, ModalBody, Input } from 'reactstrap';
+import CardStatus from './CardStatus';
 import MemberContainer from '../../containers/MemberContainer';
 import Event from './Event';
 import AddMemberFormContainer from '../../containers/AddMemberFormContainer';
@@ -39,7 +40,7 @@ class ListCard extends Component {
   }
 
   render() {
-    const { card, updateCard, markCompleted, deleteCard } = this.props;
+    const { card, updateCard, markCompleted, deleteCard, isMember } = this.props;
     const members = card.Users.map(user => <MemberContainer card={card} user={user} key={user.id}/>);
     const activity = card.Events.map(event => <Event event={event} key={event.id}/>);
 
@@ -50,11 +51,12 @@ class ListCard extends Component {
             <span id="hidden-description">{this.state.currentTitleInput}</span>
             <Input
               type="textarea"
-              className="TitleInput form-control"
+              className="TitleInput CardDescription"
               defaultValue={card.description}
               style={{ height: this.state.textareaHeight }}
               onChange={this.adjustTextareaHeight}
               onBlur={(e) => updateCard(card, e)}
+              disabled={!isMember}
             />
           </ModalHeader>
           <ModalBody className="list-card-body">
@@ -62,21 +64,19 @@ class ListCard extends Component {
               <div className="col-sm-4">
                 <small><span className="text-muted">In list:</span> {card.List.title}</small>
               </div>
-              <div className="col-sm-4 text-right">
-                {card.completed
-                  ? (
-                    <div>
-                      <span className="text-success complete">Completed</span>
-                      <small><a href="" className="card-link" onClick={(e) => deleteCard(card.id, e)}>Delete Card</a></small>
-                    </div>
-                  )
-                  : <small><a href="" className="card-link" onClick={(e) => markCompleted(card, e)}>Mark Completed</a></small>}
-              </div>
+              <CardStatus
+                card={card}
+                isMember={isMember}
+                markCompleted={markCompleted}
+                deleteCard={deleteCard}
+              />
             </div>
             <div className="Members">
               <h5>Members</h5>
               {members}
-              <AddMemberFormContainer card={card}/>
+              {isMember
+                ? <AddMemberFormContainer card={card}/>
+                : null}
             </div>
             <div className="Activity">
               <h5>Activity</h5>
@@ -103,7 +103,8 @@ ListCard.propTypes = {
   card: PropTypes.object.isRequired,
   updateCard: PropTypes.func.isRequired,
   markCompleted: PropTypes.func.isRequired,
-  deleteCard: PropTypes.func.isRequired
+  deleteCard: PropTypes.func.isRequired,
+  isMember: PropTypes.bool
 };
 
 export default ListCard;

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import List from '../List';
+import ListContainer from '../../containers/ListContainer';
 import { Card } from 'reactstrap';
 import NewListForm from '../NewListForm';
 
@@ -10,7 +10,7 @@ class Board extends PureComponent {
       listFormError, updateListTitle, deleteList } = this.props;
 
     const lists = board ? board.Lists.map(list => {
-      return <List key={list.id} list={list} updateTitle={updateListTitle} deleteList={deleteList}/>;
+      return <ListContainer key={list.id} list={list} updateTitle={updateListTitle} deleteList={deleteList}/>;
     }) : null;
 
     if (board) {

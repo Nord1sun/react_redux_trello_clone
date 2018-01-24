@@ -39,9 +39,6 @@ describe('Cards', () => {
       })
       .then(card => {
         card1 = card;
-        return Event.create({ action: 'some action', UserId: tom.id, CardId: card.id });
-      })
-      .then(() => {
         return card1.addUsers([tom]);
       })
       .then(() => {
@@ -62,6 +59,8 @@ describe('Cards', () => {
         try {
           const cardCount = await Card.count();
           expect(cardCount).toEqual(2);
+          const eventCount = await Event.count();
+          expect(eventCount).toEqual(1);
           done();
         } catch (error) {
           done.fail(error);
@@ -69,7 +68,29 @@ describe('Cards', () => {
       });
     });
 
-    it('adds the user to the cards members', (done) => {
+    it('adds the board owner as a member', async (done) => {
+      const body = { ListId: list1.id, description: 'some description' };
+      try {
+        await card1.addUser(bob);
+        await card1.removeUser(tom);
+        request({
+          url: `${ apiUrl }?token=${ bob.token }`,
+          method: 'POST',
+          json: body
+        }, async () => {
+          const cards = await Card.findAll();
+          const card = cards[cards.length - 1];
+          const users = await card.getUsers();
+          const userIds = users.map(u => u.id);
+          expect(userIds.includes(tom.id)).toBe(true);
+          done();
+        });
+      } catch (error) {
+        done.fail(error);
+      }
+    });
+
+    it('adds the user to the new card\'s members', (done) => {
       const body = { ListId: list1.id, description: 'some description' };
       request({
         url: `${ apiUrl }?token=${ tom.token }`,
@@ -163,6 +184,8 @@ describe('Cards', () => {
         try {
           const card = await Card.find();
           expect(card.description).toEqual('New Description');
+          const eventCount = await Event.count();
+          expect(eventCount).toEqual(1);
           done();
         } catch (error) {
           done.fail(error);

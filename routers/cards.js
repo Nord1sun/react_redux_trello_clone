@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { User, Card, List, Board } = require('../models');
+const { User, Card, List, Board, Event } = require('../models');
 const { checkForToken } = require('../helpers/authentication');
 const { findUserWithBoards } = require('../helpers/modelIncludeHelper');
 const { findUserByToken, validateParamId, checkIfCardMember } = require('../helpers/requestValidation');
@@ -12,14 +12,24 @@ router.post('/', async (req, res, next) => {
 
   if (!ListId || !description) {
     res.status(400).json({ status: 400, message: "Needs ListId and description" });
-    next();
+    return;
   }
 
   try {
     const user = await findUserByToken(req.query.token, res, next);
+    const list = await List.findById(ListId);
+    if (!list) {
+      res.status(404).json({ status: 404, message: 'List not found' });
+      return;
+    }
 
     const card = await Card.create({ ListId, description });
-    await card.addUser(user);
+    const boardOwner = await list.getUser();
+    await card.addUsers([user, boardOwner]);
+
+    await Event.create({
+      action: `added this card to the ${ list.title } list`, UserId: user.id, CardId: card.id
+    });
 
     const userWithBoards = await findUserWithBoards(user.id);
 
@@ -32,17 +42,27 @@ router.post('/', async (req, res, next) => {
 router.put('/:id', validateParamId, async (req, res, next) => {
   const { description, completed } = req.body;
   if(!description || (completed !== true && completed !== false)) {
-    res.status(400).json({ status: 400, message: 'Invalid body - needs a description and completed attribute' });
-    next();
+    res.status(400).json({
+      status: 400, message: 'Invalid body - needs a description and completed attribute'
+    });
+    return;
   }
 
   try {
     const user = await findUserByToken(req.query.token, res, next);
     const card = await Card.findById(req.params.id);
 
-    await checkIfCardMember(user, card, res, next);
+    const member = await checkIfCardMember(user, card, res, next);
+    if (!member) {
+      res.status(401).json({ status: 401, message: 'Unauthorized' });
+      return;
+    }
 
     await card.update({ description, completed });
+
+    await Event.create({
+      action: `changed this card's description to ${ card.description }`, UserId: user.id, CardId: card.id
+    });
 
     const userWithBoards = await findUserWithBoards(user.id);
 
@@ -58,7 +78,11 @@ router.delete('/:id', validateParamId, async (req, res, next) => {
 
     const card = await Card.findById(req.params.id);
 
-    await checkIfCardMember(user, card, res, next);
+    const member = await checkIfCardMember(user, card, res, next);
+    if (!member) {
+      res.status(401).json({ status: 401, message: 'Unauthorized' });
+      return;
+    }
 
     await card.destroy();
 

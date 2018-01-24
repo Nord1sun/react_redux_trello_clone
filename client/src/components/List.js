@@ -31,7 +31,7 @@ class List extends PureComponent {
   }
 
   render() {
-    const { list, updateTitle, deleteList } = this.props;
+    const { list, updateTitle, deleteList, selectedBoard } = this.props;
     const cards = list.Cards.map(card => {
       return <ListCardContainer key={card.id} card={card}/>;
     });
@@ -45,6 +45,7 @@ class List extends PureComponent {
             className="TitleInput"
             defaultValue={list.title}
             onBlur={(e) => updateTitle(list.id, e)}
+            disabled={selectedBoard.notOwned}
           />
           <a href="" className="DeleteList" onClick={this.toggleDeleteModal}>X</a>
         </CardHeader>
@@ -80,7 +81,8 @@ class List extends PureComponent {
 List.propTypes = {
   list: PropTypes.object.isRequired,
   updateTitle: PropTypes.func.isRequired,
-  deleteList: PropTypes.func.isRequired
+  deleteList: PropTypes.func.isRequired,
+  selectedBoard:PropTypes.object.isRequired
 };
 
 export default List;

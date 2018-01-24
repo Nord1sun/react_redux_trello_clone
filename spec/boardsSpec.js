@@ -62,8 +62,8 @@ describe('Boards', () => {
         const result = JSON.parse(body);
         expect(response.statusCode).toBe(200);
         expect(result.boards.length).toEqual(2);
-        expect(result.boards[0].title).toEqual('board1');
-        expect(result.boards[1].title).toEqual('board2');
+        const boardNames = result.boards.map(b => b.title);
+        expect(boardNames.sort()).toEqual(['board1', 'board2'].sort());
         done();
       });
     });
@@ -77,8 +77,8 @@ describe('Boards', () => {
           const result = JSON.parse(body);
           expect(response.statusCode).toBe(200);
           expect(result.boards.length).toEqual(3);
-          expect(result.boards[0].title).toEqual('board1');
-          expect(result.boards[1].title).toEqual('board2');
+          const boardNames = result.boards.map(b => b.title);
+          expect(boardNames.sort()).toEqual(['board1', 'board2', 'board3'].sort());
           done();
         });
       } catch (error) {
@@ -90,7 +90,8 @@ describe('Boards', () => {
     it('returns the requested board with it\'s lists', done => {
       request(`${ apiUrl }/${ user1.id }`, (err, response, body) => {
         const result = JSON.parse(body);
-        expect(result.boards[0].Lists[0].title).toEqual('list1');
+        const board = result.boards.find(b => b.title === 'board1');
+        expect(board.Lists[0].title).toEqual('list1');
         done();
       });
     });
@@ -122,8 +123,7 @@ describe('Boards', () => {
             done();
           })
           .catch(e => {
-            console.error(e.stack);
-            done.fail();
+            done.fail(e);
           });
       });
     });
@@ -137,8 +137,7 @@ describe('Boards', () => {
             done();
           })
           .catch(e => {
-            console.error(e.stack);
-            done.fail();
+            done.fail(e);
           });
       });
     });
@@ -152,8 +151,7 @@ describe('Boards', () => {
             done();
           })
           .catch(e => {
-            console.error(e.stack);
-            done.fail();
+            done.fail(e);
           });
       });
     });
@@ -174,8 +172,7 @@ describe('Boards', () => {
             done();
           })
           .catch(e => {
-            console.error(e.stack);
-            done.fail();
+            done.fail(e);
           });
       });
     });
@@ -206,8 +203,7 @@ describe('Boards', () => {
             done();
           })
           .catch(e => {
-            console.error(e.stack);
-            done.fail();
+            done.fail(e);
           });
       });
     });
@@ -226,8 +222,7 @@ describe('Boards', () => {
             done();
           })
           .catch(e => {
-            console.error(e.stack);
-            done.fail();
+            done.fail(e);
           });
       });
     });
@@ -246,8 +241,7 @@ describe('Boards', () => {
             done();
           })
           .catch(e => {
-            console.error(e.stack);
-            done.fail();
+            done.fail(e);
           });
       });
     });
@@ -266,8 +260,7 @@ describe('Boards', () => {
             done();
           })
           .catch(e => {
-            console.error(e.stack);
-            done.fail();
+            done.fail(e);
           });
       });
     });
@@ -287,8 +280,7 @@ describe('Boards', () => {
             done();
           })
           .catch(e => {
-            console.error(e.stack);
-            done.fail();
+            done.fail(e);
           });
       });
     });
@@ -302,8 +294,7 @@ describe('Boards', () => {
             done();
           })
           .catch(e => {
-            console.error(e.stack);
-            done.fail();
+            done.fail(e);
           });
       });
     });
@@ -317,8 +308,7 @@ describe('Boards', () => {
             done();
           })
           .catch(e => {
-            console.error(e.stack);
-            done.fail();
+            done.fail(e);
           });
       });
     });
@@ -332,8 +322,7 @@ describe('Boards', () => {
             done();
           })
           .catch(e => {
-            console.error(e.stack);
-            done.fail();
+            done.fail(e);
           });
       });
     });
@@ -347,8 +336,7 @@ describe('Boards', () => {
             done();
           })
           .catch(e => {
-            console.error(e.stack);
-            done.fail();
+            done.fail(e);
           });
       });
     });

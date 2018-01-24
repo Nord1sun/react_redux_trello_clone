@@ -4,10 +4,15 @@ import { updateCard, deleteCard } from '../actions/cardActions';
 
 const mapStateToProps = (state, ownProps) => {
   const lineAmount = ownProps.card.description.length / 37;
-  const height = (lineAmount * 15) + 40;
+  const height = (lineAmount * 15) + 50;
+
+  const memberIds = ownProps.card.Users.map(u => u.id);
+  const isMember = memberIds.includes(state.session.user.id);
+
   return {
     textareaHeight: state.card.textareaHeight || `${ height }px`,
-    isFetching: state.card.isFetching
+    isFetching: state.card.isFetching,
+    isMember
   };
 };
 

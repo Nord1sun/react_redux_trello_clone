@@ -56,7 +56,11 @@ export function addCard(body) {
       })
       .then(checkStatus)
       .then(data => {
-        dispatch(addCardSuccess(data));
+        if (data.status === 200) {
+          dispatch(addCardSuccess(data));
+        } else {
+          dispatch(addCardFailure(data));
+        }
       })
       .catch(e => dispatch(addCardFailure(e)));
   };
@@ -97,7 +101,11 @@ export function updateCard(card, body) {
       })
       .then(checkStatus)
       .then(data => {
-        dispatch(updateCardSuccess(data));
+        if (data.status === 200) {
+          dispatch(updateCardSuccess(data));
+        } else {
+          dispatch(updateCardFailure(data));
+        }
       })
       .catch(e => dispatch(updateCardFailure(e)));
   };
@@ -133,7 +141,11 @@ export function deleteCard(id) {
       })
       .then(checkStatus)
       .then(data => {
-        dispatch(deleteCardSuccess(data));
+        if (data.status === 200) {
+          dispatch(deleteCardSuccess(data));
+        } else {
+          dispatch(deleteCardFailure(data));
+        }
       })
       .catch(e => dispatch(deleteCardFailure(e)));
   };
@@ -173,7 +185,11 @@ export function searchNonMembers(id, term) {
       })
       .then(checkStatus)
       .then(data => {
-        dispatch(searchNonMembersSuccess(data));
+        if (data.status === 200) {
+          dispatch(searchNonMembersSuccess(data));
+        } else {
+          dispatch(searchNonMembersFailure(data));
+        }
       })
       .catch(e => dispatch(searchNonMembersFailure(e)));
   };
@@ -262,7 +278,6 @@ export function removeMember(cardId, userId) {
         } else {
           dispatch(removeMembersFailure(data));
         }
-
       })
       .catch(e => dispatch(removeMembersFailure(e)));
   };

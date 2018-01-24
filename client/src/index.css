@@ -168,6 +168,14 @@ h6.card-title {
   margin-right: 10px;
 }
 
+.list-title {
+  font-weight: bold;
+  padding: 3px 2px;
+  width: 90%;
+  display: inline;
+  min-height: 30px !important;
+}
+
 .ListBody {
   max-height: 280px;
   overflow-y: scroll;
@@ -180,6 +188,10 @@ h6.card-title {
 
 .ListCard p {
   font-size: .85em;
+}
+
+.CardDescription:disabled {
+  background: #fff;
 }
 
 .list-card-header {
