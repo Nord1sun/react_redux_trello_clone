@@ -160,6 +160,10 @@ h6.card-title {
   min-height: 100px;
 }
 
+.lists {
+  display: inline-block;
+}
+
 .List {
   background-color: #efefef;
   margin-bottom: 10px;

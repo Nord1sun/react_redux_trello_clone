@@ -15,6 +15,10 @@ module.exports = {
       BoardId: {
         type: Sequelize.INTEGER
       },
+      orderNum: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

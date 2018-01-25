@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import Board from '../components/boards/Board';
 import serialize from 'form-serialize';
-import { addNewList, toggleNewListForm, updateTitle, deleteList } from '../actions/listActions';
+import { addNewList, toggleNewListForm, updateTitle,
+  deleteList, reorderLists } from '../actions/listActions';
 
 const mapStateToProps = (state) => {
   return {
@@ -31,6 +32,9 @@ const mapDispatchToProps = (dispatch) => {
     deleteList: (listId, e) => {
       e.preventDefault();
       dispatch(deleteList(listId));
+    },
+    reorderLists: (boardId, listId, orderNum) => {
+      dispatch(reorderLists({ boardId, listId, orderNum }));
     }
   };
 };

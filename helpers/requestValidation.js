@@ -1,41 +1,54 @@
-const { User } = require('../models');
+const { User, List } = require('../models');
 
-async function findUserByToken(token, res, next) {
+async function findUserByToken(req, res, next) {
   try {
-    const user = await User.find({ where: { token } });
+    const user = await User.find({ where: { token: req.query.token } });
     if (!user) {
       res.status(404).json({ status: 404, message: 'User not found' });
-      next();
     } else {
-      return user;
+      res.locals.user = user;
+      next();
     }
   } catch (error) {
     next(error);
   }
 }
 
-async function checkForListTitle(title, res, next) {
-  if (!title) {
+async function checkForListTitle(req, res, next) {
+  if (!req.body.title) {
     res.status(400).json({ status: 400, message: 'No list title given' });
+  } else {
     next();
   }
 }
 
-async function checkForList(list, res, next) {
-  if (!list) {
-    res.status(404).json({ status: 404, message: 'List not found' });
-    next();
+async function checkForList(req, res, next) {
+  try {
+    const list = await List.findById(req.params.id);
+
+    if (!list) {
+      res.status(404).json({ status: 404, message: 'List not found' });
+    } else {
+      res.locals.list = list;
+      next();
+    }
+  } catch (error) {
+    console.error(error);
   }
 }
 
-async function validateParamId(req, res, next) {
-  if (!parseInt(req.params.id) || (req.params.userId && !parseInt(req.params.userId))) {
+function validateParamId(req, res, next) {
+  if (!parseInt(req.params.id)
+    || (req.params.userId && !parseInt(req.params.userId))
+    || (req.params.boardId && !parseInt(req.params.boardId))
+  ) {
     res.status(400).json({ status: 400, message: 'Invalid ID param' });
+  } else {
+    next();
   }
-  next();
 }
 
-async function checkIfCardMember(user, card, res) {
+async function checkIfCardMember(user, card) {
   const members = await card.getUsers();
   const memberIds = members.map(member => member.id);
 

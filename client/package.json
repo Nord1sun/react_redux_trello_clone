@@ -16,9 +16,10 @@
     "react-scripts": "1.0.17",
     "reactstrap": "^5.0.0-alpha.4",
     "redux": "^3.7.2",
-    "redux-react-session": "^2.2.1",
+    "redux-react-session": "^2.3.0",
     "redux-thunk": "^2.2.0",
-    "why-did-you-update": "^0.1.0"
+    "sortablejs": "^1.7.0",
+    "why-did-you-update": "maicki/why-did-you-update"
   },
   "scripts": {
     "start": "react-scripts start",

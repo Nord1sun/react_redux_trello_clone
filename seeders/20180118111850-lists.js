@@ -8,7 +8,8 @@ module.exports = {
     for (var i = 0; i < 2; i++) {
       lists.push({
         title: `List${ i }`,
-        BoardId: board.id
+        BoardId: board.id,
+        orderNum: i + 1
       });
     }
 

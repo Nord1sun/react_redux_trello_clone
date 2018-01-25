@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardBody, CardText, Modal, ModalHeader, ModalBody, Input } from 'reactstrap';
 import CardStatus from './CardStatus';
@@ -6,7 +6,7 @@ import MemberContainer from '../../containers/MemberContainer';
 import Event from './Event';
 import AddMemberFormContainer from '../../containers/AddMemberFormContainer';
 
-class ListCard extends Component {
+class ListCard extends PureComponent {
   constructor(props) {
     super(props);
     const descriptionLength = props.card.description.length - 1;

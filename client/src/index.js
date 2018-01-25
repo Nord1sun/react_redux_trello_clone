@@ -12,10 +12,10 @@ import { djello } from './reducers/appReducer';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { sessionService } from 'redux-react-session';
 
-if (process.env.NODE_ENV !== 'production') {
-  const {whyDidYouUpdate} = require('why-did-you-update');
-  whyDidYouUpdate(React);
-}
+// if (process.env.NODE_ENV !== 'production') {
+//   const {whyDidYouUpdate} = require('why-did-you-update');
+//   whyDidYouUpdate(React);
+// }
 
 const store = createStore(djello, composeWithDevTools(
   applyMiddleware(ReduxThunk)

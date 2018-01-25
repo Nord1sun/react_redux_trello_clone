@@ -6,9 +6,11 @@ const { findUserWithBoards } = require('../helpers/modelIncludeHelper');
 const { findUserByToken, validateParamId, checkIfCardMember } = require('../helpers/requestValidation');
 
 router.use(checkForToken);
+router.use(findUserByToken);
 
 router.post('/', async (req, res, next) => {
   const { ListId, description } = req.body;
+  const { user } = res.locals;
 
   if (!ListId || !description) {
     res.status(400).json({ status: 400, message: "Needs ListId and description" });
@@ -16,7 +18,6 @@ router.post('/', async (req, res, next) => {
   }
 
   try {
-    const user = await findUserByToken(req.query.token, res, next);
     const list = await List.findById(ListId);
     if (!list) {
       res.status(404).json({ status: 404, message: 'List not found' });
@@ -32,7 +33,6 @@ router.post('/', async (req, res, next) => {
     });
 
     const userWithBoards = await findUserWithBoards(user.id);
-
     res.json({ status: 200, boards: userWithBoards.Boards });
   } catch (error) {
     next(error);
@@ -41,6 +41,8 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:id', validateParamId, async (req, res, next) => {
   const { description, completed } = req.body;
+  const { user } = res.locals;
+
   if(!description || (completed !== true && completed !== false)) {
     res.status(400).json({
       status: 400, message: 'Invalid body - needs a description and completed attribute'
@@ -49,7 +51,6 @@ router.put('/:id', validateParamId, async (req, res, next) => {
   }
 
   try {
-    const user = await findUserByToken(req.query.token, res, next);
     const card = await Card.findById(req.params.id);
 
     const member = await checkIfCardMember(user, card, res, next);
@@ -65,7 +66,6 @@ router.put('/:id', validateParamId, async (req, res, next) => {
     });
 
     const userWithBoards = await findUserWithBoards(user.id);
-
     res.json({ status: 200, boards: userWithBoards.Boards });
   } catch (error) {
     next(error);
@@ -73,9 +73,9 @@ router.put('/:id', validateParamId, async (req, res, next) => {
 });
 
 router.delete('/:id', validateParamId, async (req, res, next) => {
-  try {
-    const user = await findUserByToken(req.query.token, res, next);
+  const { user } = res.locals;
 
+  try {
     const card = await Card.findById(req.params.id);
 
     const member = await checkIfCardMember(user, card, res, next);
@@ -99,8 +99,6 @@ router.get('/:id/search_non_members', validateParamId, async (req, res, next) =>
     res.status(200).json({ status: 200, users: [] });
   } else {
     try {
-      await findUserByToken(req.query.token, res, next);
-
       const card = await Card.findById(req.params.id);
       const existingMembers = await card.getUsers();
 
@@ -139,9 +137,8 @@ router.delete('/:id/remove_member/:userId', validateParamId, async (req, res, ne
 });
 
 const handleMemberRequest = async (type, res, req, next) => {
+  const { user } = res.locals;
   try {
-    const user = await findUserByToken(req.query.token, res, next);
-
     const card = await Card.find({
       where: { id: req.params.id },
       include: [{

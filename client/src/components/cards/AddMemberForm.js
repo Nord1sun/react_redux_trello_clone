@@ -24,7 +24,7 @@ class AddMemberForm extends PureComponent {
       if (!existingMemberIds.includes(user.id)) {
         return <MemberResultRow key={user.id} card={card} user={user} addMember={addMember}/>;
       }
-      return;
+      return null;
     });
     const searchResults = userResults.length ? userResults : <div className="text-muted no-result-msg">No results</div>;
 

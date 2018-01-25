@@ -37,7 +37,7 @@ class List extends PureComponent {
     });
 
     return (
-      <Card className="List pull-left">
+      <Card className="List" id={list.id}>
         <CardHeader>
           <Input
             type="textarea"

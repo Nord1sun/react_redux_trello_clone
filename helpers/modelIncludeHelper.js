@@ -15,9 +15,19 @@ const getBoardWithAssociations = async (id) => {
       }]
     }],
     order: [
-      [ List, 'createdAt', 'ASC' ],
+      [ List, 'orderNum', 'ASC' ],
       [ List, Card, 'createdAt', 'ASC' ],
       [ List, Card, Event, 'createdAt', 'ASC' ]
+    ]
+  });
+};
+
+const getBoardWithLists = async (id) => {
+  return await Board.find({
+    where: { id },
+    include: [ List ],
+    order: [
+      [ List, 'orderNum', 'ASC' ]
     ]
   });
 };
@@ -54,7 +64,7 @@ const getMemberBoards = async (user) => {
       }]
     }],
     order: [
-      [ List, 'createdAt', 'ASC' ],
+      [ List, 'orderNum', 'ASC' ],
       [ List, Card, 'createdAt', 'ASC' ],
       [ List, Card, Event, 'createdAt', 'ASC' ]
     ]
@@ -77,5 +87,6 @@ const getMemberBoards = async (user) => {
 
 module.exports = {
   getBoardWithAssociations,
-  findUserWithBoards
+  findUserWithBoards,
+  getBoardWithLists
 };

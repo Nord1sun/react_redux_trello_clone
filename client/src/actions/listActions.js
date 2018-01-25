@@ -11,6 +11,9 @@ export const UPDATE_LIST_FAILURE = 'UPDATE_LIST_FAILURE';
 export const DELETE_LIST_REQUEST = 'DELETE_LIST_REQUEST';
 export const DELETE_LIST_SUCCESS = 'DELETE_LIST_SUCCESS';
 export const DELETE_LIST_FAILURE = 'DELETE_LIST_FAILURE';
+export const REORDER_LISTS_REQUEST = 'REORDER_LISTS_REQUEST';
+export const REORDER_LISTS_SUCCESS = 'REORDER_LISTS_SUCCESS';
+export const REORDER_LISTS_FAILURE = 'REORDER_LISTS_FAILURE';
 
 export function addListRequest() {
   return { type: ADD_LIST_REQUEST };
@@ -134,6 +137,42 @@ export function deleteList(listId) {
   };
 }
 
+function reorderListsRequest() {
+  return { type: REORDER_LISTS_REQUEST };
+}
+
+function reorderListsSuccess(data) {
+  return {
+    type: REORDER_LISTS_SUCCESS,
+    data
+  };
+}
+
+function reorderListsFailure(error) {
+  return {
+    type: REORDER_LISTS_FAILURE,
+    error
+  };
+}
+
+export function reorderLists(listInfo) {
+  return (dispatch) => {
+    dispatch(reorderListsRequest());
+
+    const { boardId, listId, orderNum } = listInfo;
+    sessionService.loadSession()
+      .then(session => {
+        return fetch(`/api/v1/lists/reorder/${ boardId }/${ listId }/${ orderNum }?token=${ session.token }`, {
+          method: 'POST'
+        });
+      })
+      .then(checkStatus)
+      .then(data => {
+        dispatch(reorderListsSuccess(data));
+      })
+      .catch(e => dispatch(reorderListsFailure(e)));
+  };
+}
 
 
 

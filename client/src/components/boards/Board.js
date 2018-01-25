@@ -1,22 +1,54 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Sortable from 'sortablejs';
 import ListContainer from '../../containers/ListContainer';
 import { Card } from 'reactstrap';
 import NewListForm from '../NewListForm';
 
-class Board extends PureComponent {
+class Board extends Component {
+  constructor(props) {
+    super(props);
+    this.setListDrag = this.setListDrag.bind(this);
+  }
+
+  componentDidUpdate() {
+    this.setListDrag();
+  }
+
+  setListDrag() {
+    Sortable.create(this.lists, {
+      onEnd: (e) => {
+        const boardId = e.from.id;
+        const listId = e.item.id;
+        const orderNum = e.newIndex + 1;
+        this.props.reorderLists(boardId, listId, orderNum);
+      }
+    });
+  }
+
   render() {
     const { board, onNewList, isNewFormOpen, toggleListForm,
       listFormError, updateListTitle, deleteList } = this.props;
 
     const lists = board ? board.Lists.map(list => {
-      return <ListContainer key={list.id} list={list} updateTitle={updateListTitle} deleteList={deleteList}/>;
+      return (
+        <ListContainer
+          key={list.id}
+          list={list}
+          updateTitle={updateListTitle}
+          deleteList={deleteList}/>
+      );
     }) : null;
 
     if (board) {
       return (
         <div className="Board">
-          {lists}
+          <div
+            className="lists"
+            ref={(lists) => { this.lists = lists; }}
+            id={board.id}>
+            {lists}
+          </div>
           {isNewFormOpen
             ? (
               <NewListForm
@@ -53,7 +85,8 @@ Board.propTypes = {
   toggleListForm: PropTypes.func.isRequired,
   listFormError: PropTypes.string,
   updateListTitle: PropTypes.func.isRequired,
-  deleteList: PropTypes.func.isRequired
+  deleteList: PropTypes.func.isRequired,
+  reorderLists: PropTypes.func.isRequired
 };
 
 export default Board;

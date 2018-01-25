@@ -22,6 +22,7 @@ const boardData = (state = initialState, action) => {
     case BoardActions.GET_BOARDS_FAILURE:
     case BoardActions.CREATE_BOARD_FAILURE:
     case BoardActions.DELETE_BOARD_FAILURE:
+    case ListActions.REORDER_LISTS_FAILURE:
       return {
         ...state,
         isFetching: false,
@@ -68,6 +69,7 @@ const boardData = (state = initialState, action) => {
     case ListActions.ADD_LIST_SUCCESS:
     case ListActions.UPDATE_LIST_SUCCESS:
     case ListActions.DELETE_LIST_SUCCESS:
+    case ListActions.REORDER_LISTS_SUCCESS:
     case CardActions.UPDATE_CARD_SUCCESS:
     case CardActions.DELETE_CARD_SUCCESS:
     case CardActions.ADD_CARD_SUCCESS:
