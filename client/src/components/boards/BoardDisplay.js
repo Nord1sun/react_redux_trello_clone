@@ -7,13 +7,12 @@ import BoardContainer from '../../containers/BoardContainer';
 
 class BoardDisplay extends PureComponent {
   componentDidMount() {
-    const { currentUser, getBoards } = this.props;
-    getBoards(currentUser.id);
+    this.props.getBoards();
   }
 
   componentWillReceiveProps(newProps) {
     const { currentUser, getBoards } = newProps;
-    if (currentUser !== this.props.currentUser) getBoards(currentUser.id);
+    if (currentUser !== this.props.currentUser) getBoards();
   }
 
   render() {

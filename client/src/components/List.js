@@ -63,7 +63,6 @@ class List extends PureComponent {
 
   render() {
     const { list, updateTitle, selectedBoard } = this.props;
-
     return (
       <Card className="List" id={list.id}>
         <CardHeader>
@@ -103,7 +102,6 @@ class List extends PureComponent {
 List.propTypes = {
   list: PropTypes.object.isRequired,
   updateTitle: PropTypes.func.isRequired,
-  deleteList: PropTypes.func.isRequired,
   selectedBoard:PropTypes.object.isRequired,
   moveCard: PropTypes.func.isRequired
 };

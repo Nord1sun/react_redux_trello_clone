@@ -1,5 +1,4 @@
-import { checkStatus } from '../helpers/fetchHelper';
-import { sessionService } from 'redux-react-session';
+import { apiRequest } from '../helpers/fetchHelper';
 
 export const TOGGLE_FORM_VISIBILITY = "TOGGLE_FORM_VISIBILITY";
 export const UPDATE_TITLE_REQUEST = "UPDATE_TITLE_REQUEST";
@@ -36,25 +35,13 @@ export function updateBoardTitle(id, title) {
   return (dispatch) => {
     dispatch(updateTitleRequest());
 
-    sessionService.loadSession()
-      .then(session => {
-        return fetch(`/api/v1/boards/${ id }?token=${ session.token }`, {
-          method: 'PUT',
-          body: JSON.stringify({ title }),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        });
-      })
-      .then(checkStatus)
-      .then(boardData => {
-        if (boardData.status === 200) {
-          dispatch(updateTitleSuccess(boardData));
-        } else {
-          dispatch(updateTitleFailure(boardData));
-        }
-      })
-      .catch(e => dispatch(updateTitleFailure(e)));
+    apiRequest({
+      url: `/api/v1/boards/${ id }`,
+      method: 'PUT',
+      body: { title },
+      onSuccess: updateTitleSuccess,
+      onFail: updateTitleFailure,
+      dispatch
+    });
   };
 }

@@ -16,8 +16,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getBoards: (userId) => {
-      dispatch(getBoards(userId));
+    getBoards: () => {
+      dispatch(getBoards());
     },
 
     deleteBoard: (id, e) => {

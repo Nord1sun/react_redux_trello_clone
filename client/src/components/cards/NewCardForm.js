@@ -47,7 +47,6 @@ class NewCardFrom extends PureComponent {
         </a>
       );
     }
-
   }
 }
 

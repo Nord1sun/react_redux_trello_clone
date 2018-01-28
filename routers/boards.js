@@ -3,21 +3,24 @@ const router = express.Router();
 const { User, Board} = require('../models');
 const { checkForToken } = require('../helpers/authentication');
 const { getBoardWithAssociations, findUserWithBoards } = require('../helpers/modelIncludeHelper');
+const { findUserByToken } = require('../helpers/requestValidation');
 
-router.get('/:userId', (req, res, next) => {
-  findUserWithBoards(req.params.userId)
+router.use(checkForToken);
+router.use(findUserByToken);
+
+router.get('/', (req, res, next) => {
+  findUserWithBoards(res.locals.user.id)
     .then(user => {
       if (!user) {
         res.json({ message: 'No user found' });
         return;
       }
-
-      res.json({ boards: user.Boards });
+      res.json({ status: 200, boards: user.Boards });
     })
     .catch(e => next(e));
 });
 
-router.post('/', checkForToken, (req, res, next) => {
+router.post('/', (req, res, next) => {
   User.find({ where: { token: req.query.token } })
     .then(user => {
       if (!user) res.status(404).json({ status: 404, message: 'User not found' });
@@ -33,7 +36,7 @@ router.post('/', checkForToken, (req, res, next) => {
     .catch(e => next(e));
 });
 
-router.put('/:id', checkForToken, (req, res, next) => {
+router.put('/:id', (req, res, next) => {
   User.find({ where: { token: req.query.token } })
     .then(user => {
       if (!user) res.status(404).json({ status: 404, message: 'User not found' });
@@ -63,7 +66,7 @@ router.put('/:id', checkForToken, (req, res, next) => {
     .catch(e => next(e));
 });
 
-router.delete('/:id', checkForToken, (req, res, next) => {
+router.delete('/:id', (req, res, next) => {
   User.find({ where: { token: req.query.token } })
     .then(user => {
       if (!user) res.status(404).json({ status: 404, message: 'User not found' });

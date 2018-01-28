@@ -1,5 +1,4 @@
-import { checkStatus } from '../helpers/fetchHelper';
-import { sessionService } from 'redux-react-session';
+import { apiRequest } from '../helpers/fetchHelper';
 
 export const GET_BOARDS_REQUEST = 'GET_BOARDS_REQUEST';
 export const GET_BOARDS_SUCCESS = 'GET_BOARDS_SUCCESS';
@@ -12,36 +11,31 @@ export const CREATE_BOARD_REQUEST = 'CREATE_BOARD_REQUEST';
 export const CREATE_BOARD_SUCCESS = 'CREATE_BOARD_SUCCESS';
 export const CREATE_BOARD_FAILURE = 'CREATE_BOARD_FAILURE';
 
-export function getBoardsRequest() {
-  return { type: GET_BOARDS_REQUEST };
-}
-
-export function getBoardsSuccess(data) {
+function getBoardsSuccess(data) {
   return {
     type: GET_BOARDS_SUCCESS,
     data
   };
 }
 
-export function getBoardsFailure(error) {
+function getBoardsFailure(error) {
   return {
     type: GET_BOARDS_FAILURE,
     error
   };
 }
 
-export function getBoards(userId) {
+export function getBoards() {
   return (dispatch) => {
-    dispatch(getBoardsRequest());
+    dispatch({ type: GET_BOARDS_REQUEST });
 
-    fetch(`/api/v1/boards/${ userId }`)
-      .then(checkStatus)
-      .then(boards => {
-        dispatch(getBoardsSuccess(boards));
-      })
-      .catch(() => {
-        dispatch(getBoardsFailure({ message: 'Could not fetch boards' }));
-      });
+    apiRequest({
+      url: '/api/v1/boards',
+      method: 'GET',
+      onSuccess: getBoardsSuccess,
+      onFail: getBoardsFailure,
+      dispatch
+    });
   };
 }
 
@@ -52,14 +46,14 @@ export function selectBoard(title) {
   };
 }
 
-export function deleteBoardsSuccess(data) {
+function deleteBoardsSuccess(data) {
   return {
     type: DELETE_BOARD_SUCCESS,
     data
   };
 }
 
-export function deleteBoardsFailure(error) {
+function deleteBoardsFailure(error) {
   return {
     type: DELETE_BOARD_FAILURE,
     error
@@ -70,32 +64,24 @@ export function deleteBoard(id) {
   return (dispatch) => {
     dispatch({ type: DELETE_BOARD_REQUEST });
 
-    sessionService.loadSession()
-      .then(session => {
-        return fetch(`/api/v1/boards/${ id }?token=${ session.token }`, {
-          method: 'DELETE'
-        });
-      })
-      .then(checkStatus)
-      .then(boardData => {
-        if (boardData.status === 200) {
-          dispatch(deleteBoardsSuccess(boardData));
-        } else {
-          dispatch(deleteBoardsFailure(boardData));
-        }
-      })
-      .catch(e => dispatch(deleteBoardsFailure(e)));
+    apiRequest({
+      url: `/api/v1/boards/${ id }`,
+      method: 'DELETE',
+      onSuccess: deleteBoardsSuccess,
+      onFail: deleteBoardsFailure,
+      dispatch
+    });
   };
 }
 
-export function createBoardsSuccess(data) {
+function createBoardsSuccess(data) {
   return {
     type: CREATE_BOARD_SUCCESS,
     data
   };
 }
 
-export function createBoardsFailure(error) {
+function createBoardsFailure(error) {
   return {
     type: CREATE_BOARD_FAILURE,
     error
@@ -106,21 +92,12 @@ export function createBoard() {
   return (dispatch) => {
     dispatch({ type: CREATE_BOARD_REQUEST });
 
-    sessionService.loadSession()
-      .then(session => {
-        return fetch(`/api/v1/boards?token=${ session.token }`, {
-          method: 'POST'
-        });
-      })
-      .then(checkStatus)
-      .then(boardData => {
-        if (boardData.status === 200) {
-          dispatch(createBoardsSuccess(boardData));
-        } else {
-          dispatch(createBoardsFailure(boardData));
-        }
-      })
-      .catch(e => dispatch(createBoardsFailure(e)));
+    apiRequest({
+      url: '/api/v1/boards',
+      method: 'POST',
+      onSuccess: createBoardsSuccess,
+      onFail: createBoardsFailure,
+      dispatch
+    });
   };
 }
-

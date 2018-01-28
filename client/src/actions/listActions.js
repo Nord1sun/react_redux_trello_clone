@@ -1,5 +1,4 @@
-import { checkStatus } from '../helpers/fetchHelper';
-import { sessionService } from 'redux-react-session';
+import { apiRequest } from '../helpers/fetchHelper';
 
 export const ADD_LIST_REQUEST = 'ADD_LIST_REQUEST';
 export const ADD_LIST_SUCCESS = 'ADD_LIST_SUCCESS';
@@ -15,18 +14,14 @@ export const REORDER_LISTS_REQUEST = 'REORDER_LISTS_REQUEST';
 export const REORDER_LISTS_SUCCESS = 'REORDER_LISTS_SUCCESS';
 export const REORDER_LISTS_FAILURE = 'REORDER_LISTS_FAILURE';
 
-export function addListRequest() {
-  return { type: ADD_LIST_REQUEST };
-}
-
-export function addListSuccess(data) {
+function addListSuccess(data) {
   return {
     type: ADD_LIST_SUCCESS,
     data
   };
 }
 
-export function addListFailure(error) {
+function addListFailure(error) {
   return {
     type: ADD_LIST_FAILURE,
     error
@@ -35,24 +30,16 @@ export function addListFailure(error) {
 
 export function addNewList(listData) {
   return (dispatch) => {
-    dispatch(addListRequest());
+    dispatch({ type: ADD_LIST_REQUEST });
 
-    sessionService.loadSession()
-      .then(session => {
-        return fetch(`/api/v1/lists?token=${ session.token }`, {
-          method: 'POST',
-          body: JSON.stringify(listData),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        });
-      })
-      .then(checkStatus)
-      .then(data => {
-        dispatch(addListSuccess(data));
-      })
-      .catch(e => dispatch(addListFailure(e)));
+    apiRequest({
+      url: '/api/v1/lists',
+      method: 'POST',
+      body: listData,
+      onSuccess: addListSuccess,
+      onFail: addListFailure,
+      dispatch
+    });
   };
 }
 
@@ -60,18 +47,15 @@ export function toggleNewListForm() {
   return { type: TOGGLE_NEW_FORM };
 }
 
-export function updateListRequest() {
-  return { type: UPDATE_LIST_REQUEST };
-}
 
-export function updateListSuccess(data) {
+function updateListSuccess(data) {
   return {
     type: UPDATE_LIST_SUCCESS,
     data
   };
 }
 
-export function updateListFailure(error) {
+function updateListFailure(error) {
   return {
     type: UPDATE_LIST_FAILURE,
     error
@@ -80,39 +64,27 @@ export function updateListFailure(error) {
 
 export function updateTitle(id, title) {
   return (dispatch) => {
-    dispatch(updateListRequest());
+    dispatch({ type: UPDATE_LIST_REQUEST });
 
-    sessionService.loadSession()
-      .then(session => {
-        return fetch(`/api/v1/lists/${ id }?token=${ session.token }`, {
-          method: 'PUT',
-          body: JSON.stringify({ title }),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        });
-      })
-      .then(checkStatus)
-      .then(data => {
-        dispatch(updateListSuccess(data));
-      })
-      .catch(e => dispatch(updateListFailure(e)));
+    apiRequest({
+      url: `/api/v1/lists/${ id }`,
+      method: 'PUT',
+      body: { title },
+      onSuccess: updateListSuccess,
+      onFail: updateListFailure,
+      dispatch
+    });
   };
 }
 
-export function deleteListRequest() {
-  return { type: DELETE_LIST_REQUEST };
-}
-
-export function deleteListSuccess(data) {
+function deleteListSuccess(data) {
   return {
     type: DELETE_LIST_SUCCESS,
     data
   };
 }
 
-export function deleteListFailure(error) {
+function deleteListFailure(error) {
   return {
     type: DELETE_LIST_FAILURE,
     error
@@ -121,24 +93,16 @@ export function deleteListFailure(error) {
 
 export function deleteList(listId) {
   return (dispatch) => {
-    dispatch(deleteListRequest());
+    dispatch({ type: DELETE_LIST_REQUEST });
 
-    sessionService.loadSession()
-      .then(session => {
-        return fetch(`/api/v1/lists/${ listId }?token=${ session.token }`, {
-          method: 'DELETE'
-        });
-      })
-      .then(checkStatus)
-      .then(data => {
-        dispatch(deleteListSuccess(data));
-      })
-      .catch(e => dispatch(deleteListFailure(e)));
+    apiRequest({
+      url: `/api/v1/lists/${ listId }`,
+      method: 'DELETE',
+      onSuccess: deleteListSuccess,
+      onFail: deleteListFailure,
+      dispatch
+    });
   };
-}
-
-function reorderListsRequest() {
-  return { type: REORDER_LISTS_REQUEST };
 }
 
 function reorderListsSuccess(data) {
@@ -157,19 +121,15 @@ function reorderListsFailure(error) {
 
 export function reorderLists(listInfo) {
   return (dispatch) => {
-    dispatch(reorderListsRequest());
+    dispatch({ type: REORDER_LISTS_REQUEST });
 
     const { boardId, listId, orderNum } = listInfo;
-    sessionService.loadSession()
-      .then(session => {
-        return fetch(`/api/v1/lists/reorder/${ boardId }/${ listId }/${ orderNum }?token=${ session.token }`, {
-          method: 'POST'
-        });
-      })
-      .then(checkStatus)
-      .then(data => {
-        dispatch(reorderListsSuccess(data));
-      })
-      .catch(e => dispatch(reorderListsFailure(e)));
+    apiRequest({
+      url: `/api/v1/lists/reorder/${ boardId }/${ listId }/${ orderNum }`,
+      method: 'POST',
+      onSuccess: reorderListsSuccess,
+      onFail: reorderListsFailure,
+      dispatch
+    });
   };
 }

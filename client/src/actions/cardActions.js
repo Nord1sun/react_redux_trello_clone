@@ -1,5 +1,4 @@
-import { checkStatus } from '../helpers/fetchHelper';
-import { sessionService } from 'redux-react-session';
+import { apiRequest } from '../helpers/fetchHelper';
 
 export const ADD_CARD_REQUEST = 'ADD_CARD_REQUEST';
 export const ADD_CARD_SUCCESS = 'ADD_CARD_SUCCESS';
@@ -45,26 +44,14 @@ export function addCard(body) {
   return (dispatch) => {
     dispatch(addCardRequest());
 
-    sessionService.loadSession()
-      .then(session => {
-        return fetch(`/api/v1/cards?token=${ session.token }`, {
-          method: 'POST',
-          body: JSON.stringify(body),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        });
-      })
-      .then(checkStatus)
-      .then(data => {
-        if (data.status === 200) {
-          dispatch(addCardSuccess(data));
-        } else {
-          dispatch(addCardFailure(data));
-        }
-      })
-      .catch(e => dispatch(addCardFailure(e)));
+    apiRequest({
+      url: '/api/v1/cards',
+      method: 'POST',
+      body,
+      onSuccess: addCardSuccess,
+      onFail: addCardFailure,
+      dispatch
+    });
   };
 }
 
@@ -90,26 +77,14 @@ export function updateCard(card, body) {
   return (dispatch) => {
     dispatch(updateCardRequest());
 
-    sessionService.loadSession()
-      .then(session => {
-        return fetch(`/api/v1/cards/${ card.id }?token=${ session.token }`, {
-          method: 'PUT',
-          body: JSON.stringify(body),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        });
-      })
-      .then(checkStatus)
-      .then(data => {
-        if (data.status === 200) {
-          dispatch(updateCardSuccess(data));
-        } else {
-          dispatch(updateCardFailure(data));
-        }
-      })
-      .catch(e => dispatch(updateCardFailure(e)));
+    apiRequest({
+      url: `/api/v1/cards/${ card.id }`,
+      method: 'PUT',
+      body,
+      onSuccess: updateCardSuccess,
+      onFail: updateCardFailure,
+      dispatch
+    });
   };
 }
 
@@ -135,21 +110,13 @@ export function deleteCard(id) {
   return (dispatch) => {
     dispatch(deleteCardRequest());
 
-    sessionService.loadSession()
-      .then(session => {
-        return fetch(`/api/v1/cards/${ id }?token=${ session.token }`, {
-          method: 'DELETE'
-        });
-      })
-      .then(checkStatus)
-      .then(data => {
-        if (data.status === 200) {
-          dispatch(deleteCardSuccess(data));
-        } else {
-          dispatch(deleteCardFailure(data));
-        }
-      })
-      .catch(e => dispatch(deleteCardFailure(e)));
+    apiRequest({
+      url: `/api/v1/cards/${ id }`,
+      method: 'DELETE',
+      onSuccess: deleteCardSuccess,
+      onFail: deleteCardFailure,
+      dispatch
+    });
   };
 }
 
@@ -177,23 +144,13 @@ export function searchNonMembers(id, term) {
   return (dispatch) => {
     dispatch(searchNonMembersRequest());
 
-    sessionService.loadSession()
-      .then(session => {
-        return fetch(
-          `/api/v1/cards/${ id }/search_non_members/?term=${ encodeURIComponent(term) }&token=${ session.token }`, {
-            method: 'GET'
-          }
-        );
-      })
-      .then(checkStatus)
-      .then(data => {
-        if (data.status === 200) {
-          dispatch(searchNonMembersSuccess(data));
-        } else {
-          dispatch(searchNonMembersFailure(data));
-        }
-      })
-      .catch(e => dispatch(searchNonMembersFailure(e)));
+    apiRequest({
+      url: `/api/v1/cards/${ id }/search_non_members/?term=${ encodeURIComponent(term) }`,
+      method: 'GET',
+      onSuccess: searchNonMembersSuccess,
+      onFail: searchNonMembersFailure,
+      dispatch
+    });
   };
 }
 
@@ -221,23 +178,13 @@ export function addMember(cardId, userId) {
   return (dispatch) => {
     dispatch(addMembersRequest());
 
-    sessionService.loadSession()
-      .then(session => {
-        return fetch(
-          `/api/v1/cards/${ cardId }/add_member/${ userId }?token=${ session.token }`, {
-            method: 'POST'
-          }
-        );
-      })
-      .then(checkStatus)
-      .then(data => {
-        if (data.status === 200) {
-          dispatch(addMembersSuccess(data));
-        } else {
-          dispatch(addMembersFailure(data));
-        }
-      })
-      .catch(e => dispatch(addMembersFailure(e)));
+    apiRequest({
+      url: `/api/v1/cards/${ cardId }/add_member/${ userId }`,
+      method: 'POST',
+      onSuccess: addMembersSuccess,
+      onFail: addMembersFailure,
+      dispatch
+    });
   };
 }
 
@@ -265,23 +212,13 @@ export function removeMember(cardId, userId) {
   return (dispatch) => {
     dispatch(removeMembersRequest());
 
-    sessionService.loadSession()
-      .then(session => {
-        return fetch(
-          `/api/v1/cards/${ cardId }/remove_member/${ userId }?token=${ session.token }`, {
-            method: 'DELETE'
-          }
-        );
-      })
-      .then(checkStatus)
-      .then(data => {
-        if (data.status === 200) {
-          dispatch(removeMembersSuccess(data));
-        } else {
-          dispatch(removeMembersFailure(data));
-        }
-      })
-      .catch(e => dispatch(removeMembersFailure(e)));
+    apiRequest({
+      url: `/api/v1/cards/${ cardId }/remove_member/${ userId }`,
+      method: 'DELETE',
+      onSuccess: removeMembersSuccess,
+      onFail: removeMembersFailure,
+      dispatch
+    });
   };
 }
 
@@ -304,25 +241,13 @@ export function moveCard(data) {
     const { fromListId, toListId, cardId, orderNum } = data;
     const body = { fromListId, toListId, orderNum };
 
-    sessionService.loadSession()
-      .then(session => {
-        return fetch(`/api/v1/cards/move/${ cardId }?token=${ session.token }`, {
-          method: 'PUT',
-          body: JSON.stringify(body),
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        });
-      })
-      .then(checkStatus)
-      .then(data => {
-        if (data.status === 200) {
-          dispatch(moveCardSuccess(data));
-        } else {
-          dispatch(updateCardFailure(data));
-        }
-      })
-      .catch(e => dispatch(moveCardFailure(e)));
+    apiRequest({
+      url: `/api/v1/cards/move/${ cardId }`,
+      method: 'PUT',
+      body,
+      onSuccess: moveCardSuccess,
+      onFail: moveCardFailure,
+      dispatch
+    });
   };
 }

@@ -24,7 +24,7 @@ class DeleteListModal extends PureComponent {
 DeleteListModal.propTypes = {
   list: PropTypes.object.isRequired,
   deleteList: PropTypes.func.isRequired,
-  toggle: PropTypes.bool.isRequired,
+  toggle: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired
 };
 

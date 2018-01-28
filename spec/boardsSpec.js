@@ -58,7 +58,7 @@ describe('Boards', () => {
 
   describe('GET boards', () => {
     it('returns all the requested user\'s boards', done => {
-      request(`${ apiUrl }/${ user1.id }`, (err, response, body) => {
+      request(`${ apiUrl }?token=${ user1.token }`, (err, response, body) => {
         const result = JSON.parse(body);
         expect(response.statusCode).toBe(200);
         expect(result.boards.length).toEqual(2);
@@ -73,7 +73,7 @@ describe('Boards', () => {
         const list2 = await List.create({ title: 'list2', description: 'lorem ipsum dolor', BoardId: board2.id });
         const card2 = await Card.create({ title: 'card2', description: 'some description', ListId: list2.id });
         await card2.addUser(user2);
-        request(`${ apiUrl }/${ user2.id }`, (err, response, body) => {
+        request(`${ apiUrl }?token=${ user2.token }`, (err, response, body) => {
           const result = JSON.parse(body);
           expect(response.statusCode).toBe(200);
           expect(result.boards.length).toEqual(3);
@@ -88,7 +88,7 @@ describe('Boards', () => {
     });
 
     it('returns the requested board with it\'s lists', done => {
-      request(`${ apiUrl }/${ user1.id }`, (err, response, body) => {
+      request(`${ apiUrl }?token=${ user1.token }`, (err, response, body) => {
         const result = JSON.parse(body);
         const board = result.boards.find(b => b.title === 'board1');
         expect(board.Lists[0].title).toEqual('list1');
@@ -97,16 +97,9 @@ describe('Boards', () => {
     });
 
     it('does not return other user\'s boards', done => {
-      request(`${ apiUrl }/${ user1.id }`, (err, response, body) => {
+      request(`${ apiUrl }?token=${ user1.token }`, (err, response, body) => {
         const result = JSON.parse(body);
         expect(result.boards.filter(b => b.title === 'boards3')).toEqual([]);
-        done();
-      });
-    });
-
-    it('does not return any boards if there is no id param', done => {
-      request(`${ apiUrl }/`, (err, response) => {
-        expect(response.statusCode).toBe(404);
         done();
       });
     });
