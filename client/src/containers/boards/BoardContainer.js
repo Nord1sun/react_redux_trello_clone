@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Board from '../components/boards/Board';
-import { reorderLists } from '../actions/listActions';
+import Board from '../../components/boards/Board';
+import { reorderLists } from '../../actions/listActions';
 
 const mapStateToProps = (state) => {
   return {

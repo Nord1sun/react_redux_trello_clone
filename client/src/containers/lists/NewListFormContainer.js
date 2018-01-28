@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import NewListForm from '../components/NewListForm';
+import NewListForm from '../../components/lists/NewListForm';
 import serialize from 'form-serialize';
-import { addNewList, toggleNewListForm } from '../actions/listActions';
+import { addNewList, toggleNewListForm } from '../../actions/listActions';
 
 const mapStateToProps = (state) => {
   return {

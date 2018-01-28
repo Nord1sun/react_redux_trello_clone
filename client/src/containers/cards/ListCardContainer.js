@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import ListCard from '../components/cards/ListCard';
-import { updateCard, deleteCard } from '../actions/cardActions';
+import ListCard from '../../components/cards/ListCard';
+import { updateCard, deleteCard } from '../../actions/cardActions';
 
 const mapStateToProps = (state, ownProps) => {
   const lineAmount = ownProps.card.description.length / 37;

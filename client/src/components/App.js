@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import HeaderContainer from '../containers/HeaderContainer';
-import BoardDisplayContainer from '../containers/BoardDisplayContainer';
+import BoardDisplayContainer from '../containers/boards/BoardDisplayContainer';
 import LoginContainer from '../containers/LoginContainer';
 import PrivateRoute from './PrivateRoute';
 

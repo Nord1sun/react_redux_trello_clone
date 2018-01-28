@@ -212,7 +212,7 @@ describe('Cards', () => {
       }, (err, response, body) => {
         const result = JSON.parse(body);
         expect(response.statusCode).toBe(400);
-        expect(result.message).toEqual('Invalid body - needs a description and completed attribute');
+        expect(result.message).toEqual('Invalid body - needs a description and a completed attribute');
         done();
       });
     });
@@ -580,7 +580,7 @@ describe('Cards', () => {
     });
   });
 
-  fdescribe('PUT move', () => {
+  describe('PUT move', () => {
     let list2, list1Card2, list1Card3, list2Card1, list2Card2, list2Card3, body;
 
     beforeEach(async (done) => {

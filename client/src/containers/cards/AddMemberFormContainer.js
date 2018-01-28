@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import AddMemberForm from '../components/cards/AddMemberForm';
-import { searchNonMembers, addMember } from '../actions/cardActions';
+import AddMemberForm from '../../components/cards/AddMemberForm';
+import { searchNonMembers, addMember } from '../../actions/cardActions';
 
 const mapStateToProps = (state) => {
   const { userSearchResults, isFetching, error } = state.card;

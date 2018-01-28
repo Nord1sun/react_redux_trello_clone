@@ -25,7 +25,7 @@ class NewCardFrom extends PureComponent {
     if (this.state.isAddCardOpen) {
       return (
         <Card>
-          {error ? <Alert color="danger">{error}</Alert> : null}
+          {error && <Alert color="danger">{error}</Alert>}
           <CardBody>
             <Form onSubmit={(e) => onNewCard(this.toggleAddCard, e)}>
               <FormGroup key={list.id}>

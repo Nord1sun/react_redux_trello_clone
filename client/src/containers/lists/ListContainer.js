@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import List from '../components/List';
-import { updateTitle } from '../actions/listActions';
-import { moveCard } from '../actions/cardActions';
+import List from '../../components/lists/List';
+import { updateTitle } from '../../actions/listActions';
+import { moveCard } from '../../actions/cardActions';
 
 const mapStateToProps = (state) => {
   return {

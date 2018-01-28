@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Sortable from 'sortablejs';
-import ListContainer from '../../containers/ListContainer';
-import NewListFormContainer from '../../containers/NewListFormContainer';
+import ListContainer from '../../containers/lists/ListContainer';
+import NewListFormContainer from '../../containers/lists/NewListFormContainer';
 
 class Board extends Component {
   constructor() {

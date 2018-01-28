@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Alert } from 'reactstrap';
 import Loader from '../elements/Loader';
 import BoardDisplayHeading from './BoardDisplayHeading';
-import BoardContainer from '../../containers/BoardContainer';
+import BoardContainer from '../../containers/boards/BoardContainer';
 
 class BoardDisplay extends PureComponent {
   componentDidMount() {
@@ -20,7 +20,7 @@ class BoardDisplay extends PureComponent {
 
     return (
       <div className="Board container-fluid">
-        {error ? <Alert color="danger">{error}</Alert> : null}
+        {error && <Alert color="danger">{error}</Alert>}
         {isFetching
           ? <Loader />
           : (

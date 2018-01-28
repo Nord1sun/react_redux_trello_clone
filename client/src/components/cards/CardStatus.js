@@ -20,13 +20,7 @@ class CardStatus extends PureComponent {
     } else {
       return (
         <div className="col-sm-4 text-right">
-          {card.completed
-            ? (
-              <div>
-                <span className="text-success complete">Completed</span>
-              </div>
-            )
-            : null}
+          {card.completed && <div><span className="text-success complete">Completed</span></div>}
         </div>
       );
     }

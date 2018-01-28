@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardBody, CardText, Modal, ModalHeader, ModalBody, Input } from 'reactstrap';
 import CardStatus from './CardStatus';
-import MemberContainer from '../../containers/MemberContainer';
+import MemberContainer from '../../containers/cards/MemberContainer';
 import Event from './Event';
-import AddMemberFormContainer from '../../containers/AddMemberFormContainer';
+import AddMemberFormContainer from '../../containers/cards/AddMemberFormContainer';
 
 class ListCard extends PureComponent {
   constructor(props) {

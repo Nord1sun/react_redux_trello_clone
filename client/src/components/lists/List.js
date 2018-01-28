@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { Card, CardHeader, CardBody, Input } from 'reactstrap';
-import ListCardContainer from '../containers/ListCardContainer';
-import NewCardFormContainer from '../containers/NewCardFormContainer';
-import DeleteListModalContainer from '../containers/DeleteListModalContainer';
+import ListCardContainer from '../../containers/cards/ListCardContainer';
+import NewCardFormContainer from '../../containers/cards/NewCardFormContainer';
+import DeleteListModalContainer from '../../containers/lists/DeleteListModalContainer';
 import Sortable from 'react-sortablejs';
 
 class List extends PureComponent {

@@ -34,14 +34,6 @@ class Header extends Component {
   render() {
     const { session, history, logout, boards, selectedBoard, selectBoard, createBoard } = this.props;
 
-    const boardLinks = boards.map(board => {
-      return (
-        <DropdownItem key={board.id} tag="a" href="#" onClick={selectBoard}>
-          {board.title}
-        </DropdownItem>
-      );
-    });
-
     return (
       <div className="App-header">
         <Navbar color="faded" light expand="md">
@@ -57,7 +49,11 @@ class Header extends Component {
                       : 'Boards'}
                   </DropdownToggle>
                   <DropdownMenu >
-                    {boardLinks}
+                    {boards.map(board =>
+                      <DropdownItem key={board.id} tag="a" href="#" onClick={selectBoard}>
+                        {board.title}
+                      </DropdownItem>
+                    )}
                     <DropdownItem divider />
                     <DropdownItem tag="a" href="#" onClick={createBoard}>
                       + New Board

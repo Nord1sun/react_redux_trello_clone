@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import BoardTitleContainer from '../../containers/BoardTitleContainer';
-import DeleteBoardModal from './DeleteBoardModal';
+import BoardTitleContainer from '../../containers/boards/BoardTitleContainer';
+import DeleteBoardModalContainer from '../../containers/boards/DeleteBoardModalContainer';
 
 class BoardDisplayHeading extends PureComponent {
   constructor() {
@@ -19,12 +19,12 @@ class BoardDisplayHeading extends PureComponent {
   }
 
   render() {
-    const { selectedBoard, deleteBoard } = this.props;
+    const { selectedBoard } = this.props;
 
     return (
       <div className="BoardDisplayHeading row justify-content-between align-items-center">
         <div className="col-md-4">
-          {selectedBoard && <BoardTitleContainer board={selectedBoard} />}
+          {selectedBoard && <BoardTitleContainer />}
         </div>
         <div className="col-md-4">
           <div className="container">
@@ -36,18 +36,9 @@ class BoardDisplayHeading extends PureComponent {
                     className="delete-board-link"
                     onClick={this.toggleDeleteModal}>X
                   </a>
-                  <DeleteBoardModal
+                  <DeleteBoardModalContainer
                     isOpen={this.state.deleteModalOpen}
                     toggle={this.toggleDeleteModal}
-
-
-
-                    selectedBoard={selectedBoard}
-                    deleteBoard={deleteBoard}
-
-
-
-
                   />
                 </div>}
             </div>

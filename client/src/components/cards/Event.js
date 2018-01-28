@@ -18,7 +18,6 @@ class Event extends PureComponent {
             <div className="text-muted"> on {moment(event.createdAt).format('MMM D, YYYY')}</div>
           </div>
         </div>
-
       </div>
     );
   }

@@ -49,7 +49,7 @@ class AddMemberForm extends PureComponent {
                 onChange={(e) => searchUsers(card.id, e)}
                 id="SearchMembers"
               />
-              {error ? <Alert color="danger">{error}</Alert> : null}
+              {error && <Alert color="danger">{error}</Alert>}
               {isFetching
                 ? <Loader />
                 : searchResults}

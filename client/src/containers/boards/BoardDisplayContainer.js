@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import BoardDisplay from '../components/boards/BoardDisplay';
-import { getBoards, deleteBoard } from '../actions/boardActions';
+import BoardDisplay from '../../components/boards/BoardDisplay';
+import { getBoards } from '../../actions/boardActions';
 
 const mapStateToProps = (state) => {
   const { session, boardData } = state;
@@ -18,11 +18,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getBoards: () => {
       dispatch(getBoards());
-    },
-
-    deleteBoard: (id, e) => {
-      e.preventDefault();
-      dispatch(deleteBoard(id));
     }
   };
 };

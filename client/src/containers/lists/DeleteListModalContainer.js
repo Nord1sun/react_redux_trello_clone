@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import DeleteListModal from '../components/DeleteListModal';
-import { deleteList} from '../actions/listActions';
+import DeleteListModal from '../../components/lists/DeleteListModal';
+import { deleteList} from '../../actions/listActions';
 
 const mapDispatchToProps = (dispatch) => {
   return {

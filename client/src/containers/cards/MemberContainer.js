@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Member from '../components/cards/Member';
-import { removeMember } from '../actions/cardActions';
+import Member from '../../components/cards/Member';
+import { removeMember } from '../../actions/cardActions';
 
 const mapStateToProps = (state, ownProps) => {
   return {

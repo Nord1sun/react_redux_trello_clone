@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import NewCardForm from '../components/cards/NewCardForm';
+import NewCardForm from '../../components/cards/NewCardForm';
 import serialize from 'form-serialize';
-import { addCard } from '../actions/cardActions';
+import { addCard } from '../../actions/cardActions';
 
 const mapStateToProps = (state) => {
   return {

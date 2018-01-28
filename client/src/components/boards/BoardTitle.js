@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import { Form, FormGroup, Input, Button, Alert } from 'reactstrap';
 import Loader from '../elements/Loader';
 
-class TitleForm extends Component {
+class BoardTitle extends Component {
   render() {
     const { toggleTitleForm, isFormVisible, selectedBoard,
       updateTitle, error, isFetching } = this.props;
     return (
       <div>
-        {error ? <Alert color="danger">{error}</Alert> : null}
+        {error && <Alert color="danger">{error}</Alert>}
         {isFetching
           ? <Loader />
           : (
@@ -30,7 +30,7 @@ class TitleForm extends Component {
   }
 }
 
-TitleForm.propTypes = {
+BoardTitle.propTypes = {
   selectedBoard: PropTypes.object.isRequired,
   toggleTitleForm: PropTypes.func.isRequired,
   isFormVisible: PropTypes.bool.isRequired,
@@ -39,4 +39,4 @@ TitleForm.propTypes = {
   isFetching:PropTypes.bool.isRequired
 };
 
-export default TitleForm;
+export default BoardTitle;
