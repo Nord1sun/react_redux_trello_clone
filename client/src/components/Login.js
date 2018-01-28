@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import serialize from 'form-serialize';
-import { login } from '../actions/sessionActions';
 import { Card, CardBody, Form, FormGroup, Label, Input, Button, Alert } from 'reactstrap';
 
 class Login extends Component {
@@ -21,9 +17,7 @@ class Login extends Component {
           <div className="col-md-6">
             <h2 className="text-center">Welcome to Djello Project Management!</h2>
             <h6 className="text-center">Please login to continue</h6>
-            {sessionError.message
-              ? <Alert color="danger">{sessionError.message}</Alert>
-              : null}
+            {sessionError.message && <Alert color="danger">{sessionError.message}</Alert>}
             <Card>
               <CardBody>
                 <Form onSubmit={(e) => onSubmit(history, e)}>
@@ -54,29 +48,4 @@ Login.propTypes = {
   redirectLoggedIn: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state) => {
-  return {
-    authenticated: state.session.authenticated,
-    sessionError: state.sessionError
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    redirectLoggedIn: (authenticated, history) => {
-      if (authenticated) {
-        history.push('/');
-      }
-    },
-
-    onSubmit: (history, e) => {
-      e.preventDefault();
-      const form = e.target;
-      const userInfo = serialize(form, { hash: true });
-
-      dispatch(login(userInfo, history));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Login));
+export default Login;

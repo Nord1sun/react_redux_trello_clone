@@ -173,8 +173,3 @@ export function reorderLists(listInfo) {
       .catch(e => dispatch(reorderListsFailure(e)));
   };
 }
-
-
-
-
-

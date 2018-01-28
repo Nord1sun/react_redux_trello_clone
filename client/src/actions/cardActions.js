@@ -19,6 +19,8 @@ export const ADD_MEMBER_FAILURE = 'ADD_MEMBER_FAILURE';
 export const REMOVE_MEMBER_REQUEST = 'REMOVE_MEMBER_REQUEST';
 export const REMOVE_MEMBER_SUCCESS = 'REMOVE_MEMBER_SUCCESS';
 export const REMOVE_MEMBER_FAILURE = 'REMOVE_MEMBER_FAILURE';
+export const MOVE_CARD_SUCCESS = 'MOVE_CARD_SUCCESS';
+export const MOVE_CARD_FAILURE = 'MOVE_CARD_FAILURE';
 
 
 function addCardRequest() {
@@ -280,5 +282,47 @@ export function removeMember(cardId, userId) {
         }
       })
       .catch(e => dispatch(removeMembersFailure(e)));
+  };
+}
+
+function moveCardSuccess(data) {
+  return {
+    type: MOVE_CARD_SUCCESS,
+    data
+  };
+}
+
+function moveCardFailure(error) {
+  return {
+    type: MOVE_CARD_FAILURE,
+    error
+  };
+}
+
+export function moveCard(data) {
+  return (dispatch) => {
+    const { fromListId, toListId, cardId, orderNum } = data;
+    const body = { fromListId, toListId, orderNum };
+
+    sessionService.loadSession()
+      .then(session => {
+        return fetch(`/api/v1/cards/move/${ cardId }?token=${ session.token }`, {
+          method: 'PUT',
+          body: JSON.stringify(body),
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+      })
+      .then(checkStatus)
+      .then(data => {
+        if (data.status === 200) {
+          dispatch(moveCardSuccess(data));
+        } else {
+          dispatch(updateCardFailure(data));
+        }
+      })
+      .catch(e => dispatch(moveCardFailure(e)));
   };
 }

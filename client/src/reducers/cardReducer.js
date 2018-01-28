@@ -33,6 +33,7 @@ const card = (state = initialState, action) => {
     case Actions.DELETE_CARD_FAILURE:
     case Actions.ADD_CARD_FAILURE:
     case Actions.SEARCH_NONMEMBER_FAILURE:
+    case Actions.MOVE_CARD_FAILURE:
       return {
         ...state,
         isFetching: false,

@@ -1,14 +1,14 @@
 import { checkStatus } from '../helpers/fetchHelper';
 import { sessionService } from 'redux-react-session';
 
-export const TOGGLE_FORM_VISABILITY = "TOGGLE_FORM_VISABILITY";
+export const TOGGLE_FORM_VISIBILITY = "TOGGLE_FORM_VISIBILITY";
 export const UPDATE_TITLE_REQUEST = "UPDATE_TITLE_REQUEST";
 export const UPDATE_TITLE_SUCCESS = "UPDATE_TITLE_SUCCESS";
 export const UPDATE_TITLE_FAILURE = "UPDATE_TITLE_FAILURE";
 
 export function toggleFormVisability() {
   return {
-    type: TOGGLE_FORM_VISABILITY
+    type: TOGGLE_FORM_VISIBILITY
   };
 }
 

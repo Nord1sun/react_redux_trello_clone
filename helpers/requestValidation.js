@@ -48,6 +48,18 @@ function validateParamId(req, res, next) {
   }
 }
 
+function validateMoveCardBody(req, res, next) {
+  const { toListId, fromListId, orderNum } = req.body;
+  if (toListId && !parseInt(toListId)
+    || fromListId && !parseInt(fromListId)
+    || orderNum && !parseInt(orderNum)
+  ) {
+    res.status(400).json({ status: 400, message: 'Invalid request body' });
+  } else {
+    next();
+  }
+}
+
 async function checkIfCardMember(user, card) {
   const members = await card.getUsers();
   const memberIds = members.map(member => member.id);
@@ -63,5 +75,6 @@ module.exports = {
   checkForListTitle,
   checkForList,
   validateParamId,
-  checkIfCardMember
+  checkIfCardMember,
+  validateMoveCardBody
 };

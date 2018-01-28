@@ -579,4 +579,256 @@ describe('Cards', () => {
       });
     });
   });
+
+  fdescribe('PUT move', () => {
+    let list2, list1Card2, list1Card3, list2Card1, list2Card2, list2Card3, body;
+
+    beforeEach(async (done) => {
+      try {
+        list2 = await List.create({
+          title: 'list2',
+          description: 'lorem ipsum dolor',
+          BoardId: board1.id
+        });
+        list1Card2 = await Card.create({ title: 'list1Card2', description: 'some description', ListId: list1.id });
+        list1Card3 = await Card.create({ title: 'list1Card3', description: 'some description', ListId: list1.id });
+        list2Card1 = await Card.create({ title: 'list2Card1', description: 'some description', ListId: list2.id });
+        list2Card2 = await Card.create({ title: 'list2Card2', description: 'some description', ListId: list2.id });
+        list2Card3 = await Card.create({ title: 'list2Card3', description: 'some description', ListId: list2.id });
+        await list1Card2.addUser(tom);
+        await list1Card3.addUser(tom);
+        await list2Card1.addUser(tom);
+        await list2Card2.addUser(tom);
+        await list2Card3.addUser(tom);
+        done();
+      } catch (e) {
+        done.fail(e);
+      }
+    });
+
+    describe('a valid request', () => {
+      beforeEach(() => {
+        body = {
+          fromListId: list1.id,
+          toListId: list2.id,
+          orderNum: 3
+        };
+      });
+
+      it('moves the card to the correct list', (done) => {
+        request({
+          url: `${ apiUrl }/move/${ list1Card2.id }?token=${ tom.token }`,
+          method: 'PUT',
+          json: body
+        }, async (err, response) => {
+          expect(response.statusCode).toBe(200);
+          try {
+            await list1Card2.reload();
+            expect(list1Card2.ListId).toEqual(list2.id);
+            done();
+          } catch (e) {
+            done.fail(e);
+          }
+        });
+      });
+
+      it('normalizes the positions of the cards in the destinantion list', (done) => {
+        request({
+          url: `${ apiUrl }/move/${ list1Card2.id }?token=${ tom.token }`,
+          method: 'PUT',
+          json: body
+        }, async () => {
+          try {
+            await list2Card1.reload();
+            await list2Card2.reload();
+            await list2Card3.reload();
+            await list1Card2.reload();
+            expect(list2Card1.orderNum).toEqual(1);
+            expect(list2Card2.orderNum).toEqual(2);
+            expect(list1Card2.orderNum).toEqual(3);
+            expect(list2Card3.orderNum).toEqual(4);
+            done();
+          } catch (e) {
+            done.fail(e);
+          }
+        });
+      });
+
+      it('normalizes the positions of the cards in the origin list', (done) => {
+        request({
+          url: `${ apiUrl }/move/${ list1Card2.id }?token=${ tom.token }`,
+          method: 'PUT',
+          json: body
+        }, async () => {
+          try {
+            await card1.reload();
+            await list1Card3.reload();
+            expect(card1.orderNum).toEqual(1);
+            expect(list1Card3.orderNum).toEqual(2);
+            done();
+          } catch (e) {
+            done.fail(e);
+          }
+        });
+      });
+
+      it('creates an event for the card', (done) => {
+        request({
+          url: `${ apiUrl }/move/${ list1Card2.id }?token=${ tom.token }`,
+          method: 'PUT',
+          json: body
+        }, async () => {
+          try {
+            await list1Card2.reload();
+            const events = await list1Card2.getEvents();
+            const event = events[0];
+            expect(event.action).toEqual(`moved this card from the ${ list1.title } list to the ${ list2.title } list`);
+            done();
+          } catch (e) {
+            done.fail(e);
+          }
+        });
+      });
+    });
+
+    describe('an invalid request', () => {
+      it('does not move the card if the user is not a member of the card', async (done) => {
+        body = {
+          fromListId: list1.id,
+          toListId: list2.id,
+          orderNum: 3
+        };
+
+        try {
+          list2 = await List.create({
+            title: 'list2',
+            description: 'lorem ipsum dolor',
+            BoardId: board1.id
+          });
+          list1Card2 = await Card.create({ title: 'list1Card2', description: 'some description', ListId: list1.id });
+        } catch (e) {
+          done.fail(e);
+        }
+
+        request({
+          url: `${ apiUrl }/move/${ list1Card2.id }?token=${ bob.token }`,
+          method: 'PUT',
+          json: body
+        }, (err, response) => {
+          expect(response.statusCode).toBe(401);
+          expect(response.body.message).toEqual('Unauthorized');
+          done();
+        });
+      });
+    });
+
+    describe('missing data -', () => {
+      let bodyCopy;
+
+      beforeEach(() => {
+        bodyCopy = Object.assign({}, body);
+      });
+
+      it('no token', (done) => {
+        request({
+          url: `${ apiUrl }/move/${ list1Card2.id }`,
+          method: 'PUT',
+          json: body
+        }, (err, response) => {
+          expect(response.statusCode).toBe(403);
+          done();
+        });
+      });
+
+      it('no fromListId', (done) => {
+        delete bodyCopy.fromListId;
+        request({
+          url: `${ apiUrl }/move/${ list1Card2.id }?token=${ tom.token }`,
+          method: 'PUT',
+          json: bodyCopy
+        }, (err, response) => {
+          expect(response.statusCode).toBe(400);
+          done();
+        });
+      });
+
+      it('no toListId', (done) => {
+        delete bodyCopy.toListId;
+        request({
+          url: `${ apiUrl }/move/${ list1Card2.id }?token=${ tom.token }`,
+          method: 'PUT',
+          json: bodyCopy
+        }, (err, response) => {
+          expect(response.statusCode).toBe(400);
+          done();
+        });
+      });
+
+      it('no orderNum', (done) => {
+        delete bodyCopy.orderNum;
+        request({
+          url: `${ apiUrl }/move/${ list1Card2.id }?token=${ tom.token }`,
+          method: 'PUT',
+          json: bodyCopy
+        }, (err, response) => {
+          expect(response.statusCode).toBe(400);
+          done();
+        });
+      });
+    });
+
+    describe('invalid data -', () => {
+      it('bad token', (done) => {
+        request({
+          url: `${ apiUrl }/move/${ list1Card2.id }?token=asd123`,
+          method: 'PUT',
+          json: body
+        }, (err, response) => {
+          expect(response.statusCode).toBe(404);
+          expect(response.body.message).toEqual('User not found');
+          done();
+        });
+      });
+
+      it('bad toListId', (done) => {
+        const invalidBody = Object.assign({}, body);
+        invalidBody.toListId = 'asdf123';
+        request({
+          url: `${ apiUrl }/move/${ list1Card2.id }?token=${ tom.token }`,
+          method: 'PUT',
+          json: invalidBody
+        }, (err, response, body) => {
+          expect(response.statusCode).toBe(400);
+          expect(body.message).toEqual('Invalid request body');
+          done();
+        });
+      });
+
+      it('bad fromListId', (done) => {
+        const invalidBody = Object.assign({}, body);
+        invalidBody.fromListId = 'asdf123';
+        request({
+          url: `${ apiUrl }/move/${ list1Card2.id }?token=${ tom.token }`,
+          method: 'PUT',
+          json: invalidBody
+        }, (err, response, body) => {
+          expect(response.statusCode).toBe(400);
+          expect(body.message).toEqual('Invalid request body');
+          done();
+        });
+      });
+
+      it('bad cardId', (done) => {
+        request({
+          url: `${ apiUrl }/move/asdf123?token=${ tom.token }`,
+          method: 'PUT',
+          json: body
+        }, (err, response, body) => {
+          expect(response.statusCode).toBe(400);
+          expect(body.message).toEqual('Invalid ID param');
+          done();
+        });
+      });
+    });
+  });
 });

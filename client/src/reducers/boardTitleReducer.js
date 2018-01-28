@@ -1,17 +1,17 @@
 import * as Actions from '../actions/boardTitleActions';
 
 const initialState = {
-  isFormVisable: false,
+  isFormVisible: false,
   isFetching: false,
   error: null
 };
 
 const boardTitle = (state = initialState, action) => {
   switch (action.type) {
-    case Actions.TOGGLE_FORM_VISABILITY:
+    case Actions.TOGGLE_FORM_VISIBILITY:
       return {
         ...state,
-        isFormVisable: !state.isFormVisable,
+        isFormVisible: !state.isFormVisible,
         error: null
       };
     case Actions.UPDATE_TITLE_REQUEST:
@@ -23,7 +23,7 @@ const boardTitle = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        isFormVisable: false,
+        isFormVisible: false,
         error: null
       };
     case Actions.UPDATE_TITLE_FAILURE:

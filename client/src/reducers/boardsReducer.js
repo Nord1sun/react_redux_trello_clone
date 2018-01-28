@@ -10,7 +10,7 @@ const initialState = {
 };
 
 const boardData = (state = initialState, action) => {
-  let boards, selectedBoard;
+  let boards;
   switch (action.type) {
     case BoardActions.GET_BOARDS_REQUEST:
     case BoardActions.CREATE_BOARD_REQUEST:
@@ -26,7 +26,14 @@ const boardData = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
+
+
+
         error: action.error.message || action.error
+
+
+
+
       };
     case BoardActions.SELECT_BOARD:
       return {
@@ -46,7 +53,13 @@ const boardData = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
+
+
+
         boards: [ ...state.boards, action.data.data ].sort((a, b) => a.title.localeCompare(b.title)),
+
+
+
         selectedBoard: action.data.data
       };
     case BoardActions.DELETE_BOARD_SUCCESS:
@@ -75,12 +88,11 @@ const boardData = (state = initialState, action) => {
     case CardActions.ADD_CARD_SUCCESS:
     case CardActions.ADD_MEMBER_SUCCESS:
     case CardActions.REMOVE_MEMBER_SUCCESS:
-      boards = action.data.boards.sort((a, b) => a.title.localeCompare(b.title));
-      selectedBoard = boards.find(board => board.id === state.selectedBoard.id);
+    case CardActions.MOVE_CARD_SUCCESS:
       return {
         ...state,
-        boards,
-        selectedBoard: selectedBoard || boards[0]
+        boards: action.data.boards.sort((a, b) => a.title.localeCompare(b.title)),
+        selectedBoard: action.data.boards.find(board => board.id === state.selectedBoard.id) || boards[0]
       };
     default:
       return state;

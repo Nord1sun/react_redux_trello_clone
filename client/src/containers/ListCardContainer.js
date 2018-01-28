@@ -12,7 +12,8 @@ const mapStateToProps = (state, ownProps) => {
   return {
     textareaHeight: state.card.textareaHeight || `${ height }px`,
     isFetching: state.card.isFetching,
-    isMember
+    isMember,
+    card: ownProps.card || {}
   };
 };
 

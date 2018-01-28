@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Sortable from 'sortablejs';
 import ListContainer from '../../containers/ListContainer';
-import { Card } from 'reactstrap';
-import NewListForm from '../NewListForm';
+import NewListFormContainer from '../../containers/NewListFormContainer';
 
 class Board extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.setListDrag = this.setListDrag.bind(this);
   }
 
@@ -17,6 +16,7 @@ class Board extends Component {
 
   setListDrag() {
     Sortable.create(this.lists, {
+      draggable: ".List",
       onEnd: (e) => {
         const boardId = e.from.id;
         const listId = e.item.id;
@@ -27,65 +27,27 @@ class Board extends Component {
   }
 
   render() {
-    const { board, onNewList, isNewFormOpen, toggleListForm,
-      listFormError, updateListTitle, deleteList } = this.props;
-
-    const lists = board ? board.Lists.map(list => {
-      return (
-        <ListContainer
-          key={list.id}
-          list={list}
-          updateTitle={updateListTitle}
-          deleteList={deleteList}/>
-      );
-    }) : null;
+    const { board } = this.props;
 
     if (board) {
       return (
         <div className="Board">
-          <div
-            className="lists"
-            ref={(lists) => { this.lists = lists; }}
-            id={board.id}>
-            {lists}
+          <div className="lists" ref={(lists) => { this.lists = lists; }} id={board.id}>
+            {board.Lists.map(list => <ListContainer key={list.id} list={list}/>)}
           </div>
-          {isNewFormOpen
-            ? (
-              <NewListForm
-                onNewList={onNewList}
-                board={board}
-                toggle={toggleListForm}
-                error={listFormError}
-              />
-            )
-            : (
-              <a
-                href=""
-                className={board && board.Lists.length ? "add-list shift-down" : "add-list"}
-                onClick={toggleListForm}
-              >
-                <Card className="AddList pull-left">
-                  Add a list...
-                </Card>
-              </a>
-            )
-          }
+          <NewListFormContainer />
         </div>
       );
     } else {
-      return <p className="text-center light-text">You have no boards yet. Click new board in the navigation to create one.</p>;
+      return <p className="text-center light-text">
+        You have no boards yet. Click new board in the navigation to create one.
+      </p>;
     }
   }
 }
 
 Board.propTypes = {
   board: PropTypes.object,
-  onNewList: PropTypes.func.isRequired,
-  isNewFormOpen: PropTypes.bool.isRequired,
-  toggleListForm: PropTypes.func.isRequired,
-  listFormError: PropTypes.string,
-  updateListTitle: PropTypes.func.isRequired,
-  deleteList: PropTypes.func.isRequired,
   reorderLists: PropTypes.func.isRequired
 };
 

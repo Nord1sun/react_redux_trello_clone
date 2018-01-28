@@ -41,11 +41,9 @@ class ListCard extends PureComponent {
 
   render() {
     const { card, updateCard, markCompleted, deleteCard, isMember } = this.props;
-    const members = card.Users.map(user => <MemberContainer card={card} user={user} key={user.id}/>);
-    const activity = card.Events.map(event => <Event event={event} key={event.id}/>);
 
     return (
-      <div className="ListCard">
+      <div className="ListCard" ref={(card) => this.card = card} id={card.id}>
         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal} tag="h5" className="list-card-header">
             <span id="hidden-description">{this.state.currentTitleInput}</span>
@@ -73,27 +71,26 @@ class ListCard extends PureComponent {
             </div>
             <div className="Members">
               <h5>Members</h5>
-              {members}
-              {isMember
-                ? <AddMemberFormContainer card={card}/>
-                : null}
+              {card.Users.map(user => <MemberContainer card={card} user={user} key={user.id}/>)}
+              {isMember && <AddMemberFormContainer card={card}/>}
             </div>
             <div className="Activity">
               <h5>Activity</h5>
-              {activity}
+              {card.Events.map(event => <Event event={event} key={event.id}/>)}
             </div>
           </ModalBody>
         </Modal>
-
-        <a href="" onClick={this.toggleModal}>
-          <Card color={card.completed ? "success" : ""}>
-            <CardBody>
-              <CardText>
-                {card.description}
-              </CardText>
-            </CardBody>
-          </Card>
-        </a>
+        <div className="list-card">
+          <a href="" onClick={this.toggleModal}>
+            <Card color={card.completed ? "success" : ""}>
+              <CardBody>
+                <CardText>
+                  {card.description}
+                </CardText>
+              </CardBody>
+            </Card>
+          </a>
+        </div>
       </div>
     );
   }

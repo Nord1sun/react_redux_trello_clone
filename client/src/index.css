@@ -194,6 +194,18 @@ h6.card-title {
   font-size: .85em;
 }
 
+.list-card {
+  margin-bottom: 10px;
+}
+
+.list-body {
+  min-height: 15px;
+}
+
+.list-body div {
+  min-height: 20px;
+}
+
 .CardDescription:disabled {
   background: #fff;
 }

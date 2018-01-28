@@ -39,8 +39,8 @@ export function getBoards(userId) {
       .then(boards => {
         dispatch(getBoardsSuccess(boards));
       })
-      .catch((e) => {
-        dispatch(getBoardsFailure('Could not fetch boards'));
+      .catch(() => {
+        dispatch(getBoardsFailure({ message: 'Could not fetch boards' }));
       });
   };
 }
@@ -50,10 +50,6 @@ export function selectBoard(title) {
     type: SELECT_BOARD,
     title
   };
-}
-
-export function deleteBoardsRequest() {
-  return { type: DELETE_BOARD_REQUEST };
 }
 
 export function deleteBoardsSuccess(data) {
@@ -72,7 +68,7 @@ export function deleteBoardsFailure(error) {
 
 export function deleteBoard(id) {
   return (dispatch) => {
-    dispatch(deleteBoardsRequest());
+    dispatch({ type: DELETE_BOARD_REQUEST });
 
     sessionService.loadSession()
       .then(session => {
@@ -92,10 +88,6 @@ export function deleteBoard(id) {
   };
 }
 
-export function createBoardsRequest() {
-  return { type: CREATE_BOARD_REQUEST };
-}
-
 export function createBoardsSuccess(data) {
   return {
     type: CREATE_BOARD_SUCCESS,
@@ -112,7 +104,7 @@ export function createBoardsFailure(error) {
 
 export function createBoard() {
   return (dispatch) => {
-    dispatch(createBoardsRequest());
+    dispatch({ type: CREATE_BOARD_REQUEST });
 
     sessionService.loadSession()
       .then(session => {

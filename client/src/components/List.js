@@ -1,19 +1,19 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardHeader, CardBody, CardFooter, Input,
-  Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { Card, CardHeader, CardBody, Input } from 'reactstrap';
 import ListCardContainer from '../containers/ListCardContainer';
 import NewCardFormContainer from '../containers/NewCardFormContainer';
+import DeleteListModalContainer from '../containers/DeleteListModalContainer';
+import Sortable from 'react-sortablejs';
 
 class List extends PureComponent {
   constructor() {
     super();
     this.state = {
-      isDeleteModalOpen: false,
-      isAddCardOpen: false
+      isDeleteModalOpen: false
     };
     this.toggleDeleteModal = this.toggleDeleteModal.bind(this);
-    this.toggleAddCard = this.toggleAddCard.bind(this);
+    this.onSortChange = this.onSortChange.bind(this);
   }
 
   toggleDeleteModal(e) {
@@ -23,18 +23,46 @@ class List extends PureComponent {
     });
   }
 
-  toggleAddCard(e) {
-    if (e) e.preventDefault();
-    this.setState({
-      isAddCardOpen: !this.state.isAddCardOpen
-    });
+  componentDidUpdate() {
+    const copies = document.getElementsByClassName('copy');
+    for (let copy of copies) {
+      copy.remove();
+    }
+
+    const cards = document.getElementsByClassName('ListCard');
+    for (let card of cards) {
+      if (card.style.display === 'none') {
+        card.style.display = 'block';
+      }
+    }
+  }
+
+  onSortChange(order, sortable, e) {
+    const fromListId = e.from.parentElement.id;
+    const toListId = e.to.parentElement.id;
+
+    if (e.item.style.display !== "none") {
+      const clone = e.item.cloneNode(true);
+      clone.className += " copy";
+      e.item.setAttribute("style", "display: none");
+
+      if (fromListId === toListId && e.oldIndex < e.newIndex) {
+        e.to.insertBefore(clone, e.to.children[e.newIndex + 1]);
+      } else {
+        e.to.insertBefore(clone, e.to.children[e.newIndex]);
+      }
+    } else {
+      this.props.moveCard({
+        fromListId,
+        toListId,
+        cardId: e.item.id,
+        orderNum: e.newIndex + 1
+      });
+    }
   }
 
   render() {
-    const { list, updateTitle, deleteList, selectedBoard } = this.props;
-    const cards = list.Cards.map(card => {
-      return <ListCardContainer key={card.id} card={card}/>;
-    });
+    const { list, updateTitle, selectedBoard } = this.props;
 
     return (
       <Card className="List" id={list.id}>
@@ -47,32 +75,26 @@ class List extends PureComponent {
             onBlur={(e) => updateTitle(list.id, e)}
             disabled={selectedBoard.notOwned}
           />
-          <a href="" className="DeleteList" onClick={this.toggleDeleteModal}>X</a>
+          <a href="/" className="DeleteList" onClick={this.toggleDeleteModal}>X</a>
         </CardHeader>
         <CardBody className="ListBody">
-          {cards}
+          <div ref={body => this.listBody = body} className="list-body" id={list.id} key={list.id}>
+            <Sortable
+              options={{ group: 'cards', animation: 150, draggable: '.ListCard' }}
+              onChange={this.onSortChange}
+            >
+              {list.Cards.map(card =>
+                <ListCardContainer key={card.id} card={card}/>
+              )}
+            </Sortable>
+          </div>
         </CardBody>
-        {this.state.isAddCardOpen
-          ? (
-            <NewCardFormContainer list={list} toggle={this.toggleAddCard}/>
-          )
-          : (
-            <a href="" onClick={this.toggleAddCard}>
-              <CardFooter>
-                Add a card...
-              </CardFooter>
-            </a>
-          )}
-        <Modal isOpen={this.state.isDeleteModalOpen} toggle={this.toggleDeleteModal}>
-          <ModalHeader toggle={this.toggleDeleteModal}>Delete {list.title}</ModalHeader>
-          <ModalBody>
-            Are you sure you want to delete this list? This action will also remove any cards attached.
-          </ModalBody>
-          <ModalFooter>
-            <Button color="danger" onClick={(e) => deleteList(list.id, e)} className="form-button">Delete</Button>
-            <Button color="secondary" onClick={this.toggleDeleteModal}>Cancel</Button>
-          </ModalFooter>
-        </Modal>
+        <NewCardFormContainer list={list}/>
+        <DeleteListModalContainer
+          list={list}
+          toggle={this.toggleDeleteModal}
+          isOpen={this.state.isDeleteModalOpen}
+        />
       </Card>
     );
   }
@@ -82,7 +104,8 @@ List.propTypes = {
   list: PropTypes.object.isRequired,
   updateTitle: PropTypes.func.isRequired,
   deleteList: PropTypes.func.isRequired,
-  selectedBoard:PropTypes.object.isRequired
+  selectedBoard:PropTypes.object.isRequired,
+  moveCard: PropTypes.func.isRequired
 };
 
 export default List;

@@ -5,7 +5,7 @@ import Loader from '../elements/Loader';
 
 class TitleForm extends Component {
   render() {
-    const { toggleTitleForm, isFormVisable, selectedBoard,
+    const { toggleTitleForm, isFormVisible, selectedBoard,
       updateTitle, error, isFetching } = this.props;
     return (
       <div>
@@ -13,7 +13,7 @@ class TitleForm extends Component {
         {isFetching
           ? <Loader />
           : (
-            isFormVisable
+            isFormVisible
               ? (
                 <Form onSubmit={(e) => updateTitle(selectedBoard, e)}>
                   <FormGroup key={selectedBoard.id}>
@@ -33,7 +33,7 @@ class TitleForm extends Component {
 TitleForm.propTypes = {
   selectedBoard: PropTypes.object.isRequired,
   toggleTitleForm: PropTypes.func.isRequired,
-  isFormVisable: PropTypes.bool.isRequired,
+  isFormVisible: PropTypes.bool.isRequired,
   updateTitle: PropTypes.func.isRequired,
   error: PropTypes.string,
   isFetching:PropTypes.bool.isRequired

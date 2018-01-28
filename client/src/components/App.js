@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import HeaderContainer from '../containers/HeaderContainer';
 import BoardDisplayContainer from '../containers/BoardDisplayContainer';
-import Login from './Login';
+import LoginContainer from '../containers/LoginContainer';
 import PrivateRoute from './PrivateRoute';
 
 const App = ({ session }) => (
@@ -14,7 +14,7 @@ const App = ({ session }) => (
         <div>
           <HeaderContainer session={session} />
           <PrivateRoute exact path="/" component={BoardDisplayContainer} authenticated={session.authenticated}/>
-          <Route path="/login" component={Login}/>
+          <Route path="/login" component={LoginContainer}/>
         </div>
       }
     </Router>

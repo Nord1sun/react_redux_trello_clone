@@ -4,9 +4,9 @@ import { toggleFormVisability, updateBoardTitle } from '../actions/boardTitleAct
 import serialize from 'form-serialize';
 
 const mapStateToProps = (state) => {
-  const { isFormVisable, error, isFetching } = state.boardTitle;
+  const { isFormVisible, error, isFetching } = state.boardTitle;
   return {
-    isFormVisable,
+    isFormVisible,
     error,
     isFetching,
     selectedBoard: state.boardData.selectedBoard

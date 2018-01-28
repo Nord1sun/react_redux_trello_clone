@@ -19,35 +19,37 @@ class BoardDisplayHeading extends PureComponent {
   }
 
   render() {
-    const { selectedBoard, deleteBoard} = this.props;
+    const { selectedBoard, deleteBoard } = this.props;
 
     return (
       <div className="BoardDisplayHeading row justify-content-between align-items-center">
         <div className="col-md-4">
-          {selectedBoard
-            ? <BoardTitleContainer board={selectedBoard} />
-            : null}
+          {selectedBoard && <BoardTitleContainer board={selectedBoard} />}
         </div>
         <div className="col-md-4">
           <div className="container">
             <div className="row justify-content-end board-links">
-              {selectedBoard && !selectedBoard.notOwned
-                ? (
-                  <div className="DeleteBoard">
-                    <a
-                      href=""
-                      className="delete-board-link"
-                      onClick={this.toggleDeleteModal}>X
-                    </a>
-                    <DeleteBoardModal
-                      isOpen={this.state.deleteModalOpen}
-                      toggle={this.toggleDeleteModal}
-                      selectedBoard={selectedBoard}
-                      deleteBoard={deleteBoard}
-                    />
-                  </div>
-                )
-                : null}
+              {selectedBoard && !selectedBoard.notOwned &&
+                <div className="DeleteBoard">
+                  <a
+                    href=""
+                    className="delete-board-link"
+                    onClick={this.toggleDeleteModal}>X
+                  </a>
+                  <DeleteBoardModal
+                    isOpen={this.state.deleteModalOpen}
+                    toggle={this.toggleDeleteModal}
+
+
+
+                    selectedBoard={selectedBoard}
+                    deleteBoard={deleteBoard}
+
+
+
+
+                  />
+                </div>}
             </div>
           </div>
         </div>

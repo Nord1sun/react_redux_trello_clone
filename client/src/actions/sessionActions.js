@@ -23,31 +23,27 @@ export const login = (user, history) => {
   return (dispatch) => {
     dispatch(removeSessionError());
 
-    const userInfo = JSON.stringify(user);
-
     return fetch('/api/v1/sessions/new', {
       method: 'POST',
-      body: userInfo,
+      body: JSON.stringify(user),
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       }
     })
-      .then(response => {
-        return response.json();
-      })
+      .then(response => response.json())
       .then(userData => {
         if (!userData.token) throw new Error(userData.message);
         const { token } = userData;
         sessionService.saveSession({ token })
           .then(() => {
-            return sessionService.saveUser(userData.data);
+            sessionService.saveUser(userData.data);
           })
           .then(() => {
             dispatch(removeSessionError());
             history.push('/');
           })
-          .catch(err => console.error(err));
+          .catch(console.error);
       })
       .catch(err => dispatch(setSessionError(err)));
   };
@@ -57,13 +53,13 @@ export const logout = (history) => {
   return (dispatch) => {
     return sessionService.deleteSession()
       .then(() => {
-        return sessionService.deleteUser();
+        sessionService.deleteUser();
       })
       .then(() => {
         dispatch(userLogout());
         dispatch(removeSessionError());
         history.push('/login');
       })
-      .catch(err => console.error(err));
+      .catch(console.error);
   };
 };
