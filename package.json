@@ -10,8 +10,8 @@
     "console": "node repl",
     "debug": "node debug server",
     "test": "jasmine",
-    "seed": "sequelize db:migrate:undo:all && sequelize db:migrate:undo:all --env 'test' && sequelize db:migrate && sequelize db:migrate --env 'test' && sequelize db:seed:all",
-    "seeds": "sequelize db:migrate:undo:all && sequelize db:migrate:undo:all --env 'test' && sequelize db:migrate && sequelize db:migrate --env 'test' && sequelize db:seed:all"
+    "seed": "npm run sql db:migrate:undo:all && npm run sql db:migrate && npm run sql db:seed:all",
+    "sql": "node_modules/.bin/sequelize"
   },
   "repository": {
     "type": "git",
@@ -38,6 +38,7 @@
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.31.1",
+    "sequelize-cli": "^3.2.0",
     "uuid": "^3.1.0"
   },
   "devDependencies": {
