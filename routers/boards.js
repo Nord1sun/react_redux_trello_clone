@@ -31,7 +31,7 @@ router.post('/', (req, res, next) => {
       return getBoardWithAssociations(board.id);
     })
     .then(board => {
-      res.json({ status: 200, data: board });
+      res.json({ status: 200, board });
     })
     .catch(e => next(e));
 });

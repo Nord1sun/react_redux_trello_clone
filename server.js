@@ -4,6 +4,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const path = require('path');
 
 app.set('port', (process.env.PORT || 3001));
 
@@ -24,6 +25,10 @@ app.use('/api/v1/sessions', sessions);
 app.use('/api/v1/boards', boards);
 app.use('/api/v1/lists', lists);
 app.use('/api/v1/cards', cards);
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+});
 
 const errorHandler = (err, req, res, next) => {
   res.status(err.response ? err.response.status : 500);

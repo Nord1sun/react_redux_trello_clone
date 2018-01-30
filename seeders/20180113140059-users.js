@@ -8,10 +8,10 @@ module.exports = {
     const globalPassword = '$2a$08$7e0QZksAKX1lQft9/37nkuakp/Mlku93JfkA6Adedfm.4cM1MeswS';
 
     var users = [{
-      fullName: 'Aaron Saloff',
-      email: 'asaloff@example.com',
+      fullName: 'John Doe',
+      email: 'jdoe@example.com',
       password: globalPassword,
-      token: md5(`asaloff@example.com${ uuid() }`)
+      token: md5(`jdoe@example.com${ uuid() }`)
     }];
 
     for (var i = 0; i < 2; i++) {

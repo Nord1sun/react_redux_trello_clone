@@ -1,6 +1,6 @@
 import { SET_SESSION_ERROR, REMOVE_SESSION_ERROR } from '../actions/sessionActions';
 
-const sessionError = (state = {}, action) => {
+const sessionInfo = (state = {}, action) => {
   switch (action.type) {
     case SET_SESSION_ERROR:
       return {
@@ -17,4 +17,4 @@ const sessionError = (state = {}, action) => {
   }
 };
 
-export default sessionError;
+export default sessionInfo;

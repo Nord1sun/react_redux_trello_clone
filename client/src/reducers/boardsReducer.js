@@ -26,14 +26,7 @@ const boardData = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-
-
-
-        error: action.error.message || action.error
-
-
-
-
+        error: action.error.message
       };
     case BoardActions.SELECT_BOARD:
       return {
@@ -44,7 +37,7 @@ const boardData = (state = initialState, action) => {
     case BoardActions.GET_BOARDS_SUCCESS:
       return {
         ...state,
-        boards: action.data.boards.sort((a, b) => a.title.localeCompare(b.title)),
+        boards: action.data.boards,
         selectedBoard: action.data.boards[0],
         isFetching: false,
         error: null
@@ -53,20 +46,14 @@ const boardData = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-
-
-
-        boards: [ ...state.boards, action.data.data ].sort((a, b) => a.title.localeCompare(b.title)),
-
-
-
-        selectedBoard: action.data.data
+        boards: [ ...state.boards, action.data.board ].sort((a, b) => a.title.localeCompare(b.title)),
+        selectedBoard: action.data.board
       };
     case BoardActions.DELETE_BOARD_SUCCESS:
       boards = state.boards.filter(board => board.id !== action.data.board.id);
       return {
         ...state,
-        boards: boards.sort((a, b) => a.title.localeCompare(b.title)),
+        boards,
         selectedBoard: boards[0],
         isFetching: false
       };
@@ -76,7 +63,7 @@ const boardData = (state = initialState, action) => {
       });
       return {
         ...state,
-        boards: boards.sort((a, b) => a.title.localeCompare(b.title)),
+        boards,
         selectedBoard: action.data.board
       };
     case ListActions.ADD_LIST_SUCCESS:
@@ -91,7 +78,7 @@ const boardData = (state = initialState, action) => {
     case CardActions.MOVE_CARD_SUCCESS:
       return {
         ...state,
-        boards: action.data.boards.sort((a, b) => a.title.localeCompare(b.title)),
+        boards: action.data.boards,
         selectedBoard: action.data.boards.find(board => board.id === state.selectedBoard.id) || boards[0]
       };
     default:
