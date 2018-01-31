@@ -9,7 +9,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 import { djello } from './reducers/appReducer';
-import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
+import { composeWithDevTools } from 'redux-devtools-extension';
 import { sessionService } from 'redux-react-session';
 
 // if (process.env.NODE_ENV !== 'production') {
