@@ -19,8 +19,7 @@
     "redux": "^3.7.2",
     "redux-react-session": "^2.3.0",
     "redux-thunk": "^2.2.0",
-    "sortablejs": "^1.6.1",
-    "why-did-you-update": "maicki/why-did-you-update"
+    "sortablejs": "^1.6.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -29,6 +28,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "why-did-you-update": "maicki/why-did-you-update",
     "redux-devtools-extension": "^2.13.2"
   }
 }

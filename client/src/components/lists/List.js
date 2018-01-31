@@ -46,19 +46,21 @@ class List extends PureComponent {
       clone.className += " copy";
       e.item.setAttribute("style", "display: none");
 
+
       if (fromListId === toListId && e.oldIndex < e.newIndex) {
         e.to.insertBefore(clone, e.to.children[e.newIndex + 1]);
       } else {
         e.to.insertBefore(clone, e.to.children[e.newIndex]);
       }
-    } else {
-      this.props.moveCard({
-        fromListId,
-        toListId,
-        cardId: e.item.id,
-        orderNum: e.newIndex + 1
-      });
     }
+
+    this.props.moveCard({
+      fromListId,
+      toListId,
+      cardId: e.item.id,
+      orderNum: e.newIndex + 1
+    });
+
   }
 
   render() {

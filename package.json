@@ -4,8 +4,8 @@
   "description": "Project management with that great wobbly taste.",
   "main": "server.js",
   "scripts": {
-    "start": "node index.js",
-    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build",
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install && npm run build",
     "c": "node repl",
     "console": "node repl",
     "debug": "node debug server",
