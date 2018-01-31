@@ -2,6 +2,8 @@
 
 Built with a React frontend and a Node/Express backend API. For educational purposes only.
 
+![Djello Demo](https://s3.amazonaws.com/demo-gifs-asaloff/djello.gif)
+
 [Demo](https://react-djello.herokuapp.com/) - (Hosted free on heroku and may be sleeping. Could take 30 seconds the first time to load)
 
 Login using:
@@ -24,8 +26,8 @@ Login using:
 
 ### Usage
 
-- Lists can be dragged and put in the desired order. 
-- Cards can be dragged within their lists or to other lists. 
+- Lists can be dragged and put in the desired order.
+- Cards can be dragged within their lists or to other lists.
 - List names and card descriptions are edited in place.
 - Click on a card to view a modal with it's info.
 
