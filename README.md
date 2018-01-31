@@ -17,7 +17,7 @@ Login using:
 - React.js
 - Redux
 - react-router (Single page app)
-- Authenticatuon with redux-react-session
+- Authentication with redux-react-session
 - SortableJS (for drag and drop)
 - react-sortablejs (Sortable package for React)
 - redux-thunk (for async requests to backend)
