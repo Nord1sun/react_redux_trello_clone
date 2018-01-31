@@ -9,17 +9,23 @@ import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import ReduxThunk from 'redux-thunk';
 import { djello } from './reducers/appReducer';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import { sessionService } from 'redux-react-session';
 
-// if (process.env.NODE_ENV !== 'production') {
-//   const {whyDidYouUpdate} = require('why-did-you-update');
-//   whyDidYouUpdate(React);
-// }
+let store;
 
-const store = createStore(djello, composeWithDevTools(
-  applyMiddleware(ReduxThunk)
-));
+if (process.env.NODE_ENV !== 'production') {
+  // const {whyDidYouUpdate} = require('why-did-you-update');
+  // whyDidYouUpdate(React);
+  const { composeWithDevTools } = require('redux-devtools-extension');
+
+  store = createStore(djello, composeWithDevTools(
+    applyMiddleware(ReduxThunk)
+  ));
+} else {
+  store = createStore(djello, applyMiddleware(ReduxThunk));
+}
+
+
 
 sessionService.initSessionService(store);
 
