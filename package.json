@@ -1,6 +1,9 @@
 {
   "name": "project_djello",
   "version": "1.0.0",
+  "engines": {
+    "node": "7.10.1"
+  },
   "description": "Project management with that great wobbly taste.",
   "main": "server.js",
   "scripts": {
