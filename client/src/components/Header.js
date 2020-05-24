@@ -37,7 +37,7 @@ class Header extends Component {
     return (
       <div className="App-header">
         <Navbar color="faded" light expand="md">
-          <h2 className="App-title">Djello</h2>
+          <h2 className="App-title">PlanX</h2>
           <NavbarToggler onClick={this.toggle} />
           {session.authenticated &&
             <Collapse isOpen={this.state.isNavbarOpen} navbar>
