@@ -1,14 +1,15 @@
 {
   "development": {
-    "username": "aaronsaloff",
-    "password": null,
+    "username": "djello",
+    "password": "pass",
     "database": "djello_development",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "logging": false
   },
   "test": {
-    "username": "aaronsaloff",
-    "password": null,
+    "username": "djello",
+    "password": "test",
     "database": "djello_test",
     "host": "127.0.0.1",
     "dialect": "postgres",

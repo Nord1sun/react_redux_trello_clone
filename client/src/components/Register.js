@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Card, CardBody, Form, FormGroup, Label, Input, Button, Alert } from 'reactstrap';
 import { Link } from 'react-router-dom';
 
-class Login extends Component {
+class Register extends Component {
   componentWillMount() {
     const { authenticated, redirectLoggedIn, history } = this.props;
     redirectLoggedIn(authenticated, history);
@@ -17,11 +17,15 @@ class Login extends Component {
         <div className="row justify-content-center">
           <div className="col-md-6">
             <h2 className="text-center">Welcome to Djello Project Management!</h2>
-            <h6 className="text-center">Please login to continue</h6>
+            <h6 className="text-center">Register new account</h6>
             {sessionError.message && <Alert color="danger">{sessionError.message}</Alert>}
             <Card>
               <CardBody>
                 <Form onSubmit={(e) => onSubmit(history, e)}>
+                  <FormGroup>
+                    <Label for="name">Name</Label>
+                    <Input type="text" name="name" id="name" />
+                  </FormGroup>
                   <FormGroup>
                     <Label for="email">Email</Label>
                     <Input type="email" name="email" id="email" />
@@ -31,8 +35,8 @@ class Login extends Component {
                     <Input type="password" name="password" id="password" />
                   </FormGroup>
                   <div className="d-flex justify-content-between align-items-center">
-                    <Button color="primary">Sign in</Button>
-                    <Link to="/register" style={{ color: '#000' }}>Register</Link>
+                    <Button color="primary">Register</Button>
+                    <Link to="/login" style={{ color: '#000' }}>Sign in</Link>
                   </div>
                 </Form>
               </CardBody>
@@ -44,7 +48,7 @@ class Login extends Component {
   }
 }
 
-Login.propTypes = {
+Register.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
   sessionError: PropTypes.object.isRequired,
@@ -52,4 +56,4 @@ Login.propTypes = {
   redirectLoggedIn: PropTypes.func.isRequired
 };
 
-export default Login;
+export default Register;

@@ -6,6 +6,7 @@ import HeaderContainer from '../containers/HeaderContainer';
 import BoardDisplayContainer from '../containers/boards/BoardDisplayContainer';
 import LoginContainer from '../containers/LoginContainer';
 import PrivateRoute from './PrivateRoute';
+import RegisterContainer from '../containers/RegisterContainer';
 
 const App = ({ session }) => (
   <div className="App">
@@ -15,6 +16,7 @@ const App = ({ session }) => (
           <HeaderContainer session={session} />
           <PrivateRoute exact path="/" component={BoardDisplayContainer} authenticated={session.authenticated}/>
           <Route path="/login" component={LoginContainer}/>
+          <Route path="/register" component={RegisterContainer}/>
         </div>
       }
     </Router>

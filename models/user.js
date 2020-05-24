@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     fullName: DataTypes.STRING,
     email: {
       type: DataTypes.STRING,
+      unique: true,
       validate: {
         notEmpty: {
           msg: 'Email cannot be empty'

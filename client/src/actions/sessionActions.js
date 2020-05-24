@@ -19,6 +19,36 @@ const userLogout = () => {
   return { type: USER_LOGOUT };
 };
 
+export const register = (user, history) => {
+  return (dispatch) => {
+    dispatch(removeSessionError());
+
+    return fetch('/api/v1/sessions/register', {
+      method: 'POST',
+      body: JSON.stringify(user),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(userData => {
+        if (!userData.token) throw new Error(userData.message);
+        const { token } = userData;
+        sessionService.saveSession({ token })
+          .then(() => {
+            sessionService.saveUser(userData.data);
+          })
+          .then(() => {
+            dispatch(removeSessionError());
+            history.push('/');
+          })
+          .catch(console.error);
+      })
+      .catch(err => dispatch(setSessionError(err)));
+  };
+}
+
 export const login = (user, history) => {
   return (dispatch) => {
     dispatch(removeSessionError());
