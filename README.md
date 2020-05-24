@@ -2,9 +2,7 @@
 
 Built with a React frontend and a Node/Express backend API. For educational purposes only.
 
-![Djello Demo](https://s3.amazonaws.com/demo-gifs-asaloff/djello.gif)
-
-[Demo](https://react-djello.herokuapp.com/) - (Hosted free on heroku and may be sleeping. Could take 30 seconds the first time to load)
+[Project](https://nordisun-plan-x.herokuapp.com/login) - (Hosted free on heroku)
 
 Login using:
 - email: jdoe@example.com
@@ -31,4 +29,4 @@ Login using:
 - List names and card descriptions are edited in place.
 - Click on a card to view a modal with it's info.
 
-Feel free to get in touch with any feedback or questions. aaronsaloff@gmail.com
+
